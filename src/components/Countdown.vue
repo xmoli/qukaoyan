@@ -52,11 +52,16 @@ export default {
 <style lang="stylus" scoped>
 .counter
     /* Box model */
-    margin 1.5em 0
-
+    display flex
+    align-items center
+    border-radius 0 0 10px 10px
     /* Typograhic */
     font-size 16px
-    text-align center
+    text-align start
+    /* Visual */
+    background #00b7ee
     .number
         font-size 82px
+    span
+        margin 8px
 </style>

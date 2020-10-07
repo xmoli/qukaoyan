@@ -1,13 +1,12 @@
 <template>
     <div class="grassland">
-        <addition class="addition"/>
+        <notebox/>
     </div>
 </template>
 <script>
 export default {
     components: {
-        
-        addition: () => import('./TaskAdder')
+        notebox: () => import('./Notebox')
     }
 }
 </script>
@@ -15,18 +14,18 @@ export default {
 .grassland
     /* Positioning */
     position absolute
-    top 50vh
+
     left 0
     
     /* Box model */
     display flex
     flex-direction column
+    align-items center
     width 100vw
-    height 50vh
-
+    margin 8px
     /* Typographic */
     /* Visual */
-    background #2cffb7
+    /* background #2cffb7 */
 
     /* Other */
 

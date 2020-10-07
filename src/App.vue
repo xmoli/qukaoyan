@@ -1,7 +1,6 @@
 <template>
   <div id="app">
     <skybox/>
-    <pager/>
     <grassland/>
   </div>
 </template>
@@ -9,7 +8,6 @@
 export default {
   components: {
     skybox: () => import('@/components/Skybox'),
-    pager: () => import('@/components/Pager'),
     grassland: () => import('@/components/Grassland')
   }
 }
@@ -21,4 +19,9 @@ export default {
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
+
+
+body
+  margin 0
+  paddign 0
 </style>
