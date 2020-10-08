@@ -1,18 +1,12 @@
 <template>
     <div class="notebox-wrapper">
+        <counter />
     <table  class="notebox">
-        <tr>
-            <th>index</th>
-            <th>任务内容</th>
-            <th>预计时间</th>
-            <th>开始</th>
-            <th>评价</th>
-        </tr>
         <tr class="notebox-item"
             v-for="(item,index) in todos" :key="index"
         >
             <td>
-                {{index+1}}、
+                
             </td>
             <td>
                 <input class="task"
@@ -42,7 +36,8 @@ import {mapState} from 'vuex'
 
 export default {
     components: {
-        pager: () => import('./Pager')
+        pager: () => import('./Pager'),
+        counter: () => import('./Countdown')
     },
     data() {
         return {
@@ -71,25 +66,27 @@ table
     border-collapse collapse
     width 100%
     td, th
-        border 1px solid #007bea 
         line-height 3em
         border-left none 
         border-right none
 th
     font-weight normal 
     color grey
-input.task
+.task
     border none
+    border-bottom 2px solid #00b7ee
     outline none
     width 100%
+
 
 .item-status
     color green
 
 .start-icon
-    color gray
+    color #c403c4
     transform color .5s ease-out
     &:hover
         cursor pointer
-        color black
+        color purple
+        transition all .4s ease-in
 </style>

@@ -1,17 +1,13 @@
 <template>
   <div id="app">
-    <skybox/>
-    <grassland/>
+    <div id="nav">
+      <router-link to="/">Home</router-link> |
+      <router-link to="/about">About</router-link>
+    </div>
+    <router-view/>
   </div>
 </template>
-<script>
-export default {
-  components: {
-    skybox: () => import('@/components/Skybox'),
-    grassland: () => import('@/components/Grassland')
-  }
-}
-</script>
+
 <style lang="stylus">
 #app
   font-family Avenir, Helvetica, Arial, sans-serif
@@ -19,9 +15,5 @@ export default {
   -moz-osx-font-smoothing grayscale
   text-align center
   color #2c3e50
-
-
-body
-  margin 0
-  paddign 0
+  margin-top 60px
 </style>

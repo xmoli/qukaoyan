@@ -1,5 +1,7 @@
 <template>
-    <div class="counter">
+    <div class="counter"
+        @contextmenu.prevent="handleOpenMenu"
+    >
         <span>
             {{descript}}
         </span>
@@ -16,7 +18,7 @@ export default {
     data() {
         return {
             endDate: '2020-10-03',
-            descript: '距离XX剩余',
+            descript: '剩余',
             unit: '天'
         }
     },
@@ -45,6 +47,9 @@ export default {
             if (dateTest !== 'Invalid Date') {
                 localStorage.setItem('endDate',endDate)
             }
+        },
+        handleOpenMenu() {
+            console.log('openMenu')
         }
     }
 }
@@ -52,16 +57,14 @@ export default {
 <style lang="stylus" scoped>
 .counter
     /* Box model */
-    display flex
-    align-items center
-    border-radius 0 0 10px 10px
+    margin-bottom 16px
+    border-radius 8px
     /* Typograhic */
     font-size 16px
-    text-align start
     /* Visual */
     background #00b7ee
     .number
-        font-size 82px
+        font-size 3em
     span
         margin 8px
 </style>

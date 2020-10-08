@@ -20,10 +20,20 @@ export default new Vuex.Store({
       {task:null, finish: 1, startTime: '', status: 50},
     ],
     pager: {
+      maxPage: 20,
       current: 20,
     }
   },
   mutations: {
+    decrement (state) {
+      state.pager.current --
+    },
+    increment (state) {
+      state.pager.current ++
+    },
+    turn (state, page) {
+      state.pager.current = page
+    }
   },
   actions: {
     saveNote () {
