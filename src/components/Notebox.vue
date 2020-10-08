@@ -6,7 +6,7 @@
             <th>任务内容</th>
             <th>预计时间</th>
             <th>开始</th>
-            <th>状态</th>
+            <th>评价</th>
         </tr>
         <tr class="notebox-item"
             v-for="(item,index) in todos" :key="index"
@@ -15,7 +15,11 @@
                 {{index+1}}、
             </td>
             <td>
-                <input placeholder="填写任务"/>
+                <input class="task"
+                    placeholder="填写任务"
+                    v-model="item.task"
+                    maxlength="30"
+                />
             </td>
             <td></td>
             <td v-if="item.startTime">
@@ -24,11 +28,8 @@
             <td v-else class="start-icon">
                 <font-awesome-icon icon="play" />
             </td>
-            <td v-if="item.status == 100" class="item-status">
-                <font-awesome-icon :icon="cross" />
-            </td>
-            <td v-else>
-                {{item.status/100}}
+            <td>
+
             </td>
         </tr>
     </table>
@@ -53,9 +54,6 @@ export default {
         })
     },
     methods: {
-        save () {
-
-        },
         randomColor () {
 
         }
@@ -63,7 +61,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">
+<style lang="stylus" scoped>
 .notebox-wrapper
     padding 3em 2em
     box-shadow 1px 1px 8px
@@ -77,11 +75,13 @@ table
         line-height 3em
         border-left none 
         border-right none
-input
+th
+    font-weight normal 
+    color grey
+input.task
     border none
     outline none
     width 100%
-    caret-color blue
 
 .item-status
     color green

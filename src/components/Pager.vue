@@ -1,9 +1,10 @@
 <template>
     <div class="pager">
-        <div :class="['pager-item',i.status]"
-            v-for="i in pager" :key="i"
-        >
-        </div>
+        第
+        <input placeholder="页码" class="pager-input"
+            v-model="pager.current"
+        />
+        页
     </div>
 </template>
 
@@ -20,15 +21,10 @@ export default {
 <style lang="stylus">
 .pager
     /* Positioning */
-    position absolute 
-    z-index 2000
-    right 10px
-    top 0
     /* Box model */
     display flex
-    flex-direction column
     justify-content center
-    height 100vh
+    align-items center
 
 .pager-item
     width 8px
@@ -43,5 +39,11 @@ export default {
         height 1em
         border 2px solid rgba(0,0,0,.4)
         background rgba(0,0,0,0.6)
+
+input.pager-input
+    width 2em
+    outline none
+    margin 8px
+    border none
 
 </style>
