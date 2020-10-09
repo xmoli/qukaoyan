@@ -7,7 +7,7 @@ export default new Vuex.Store({
   state: {
     note: [],
     todos: new Array(1).fill({task: null}),
-    endDate: '',
+    endDateOptions: [],
     pager: {
       maxPage: 10,
       current: 10,

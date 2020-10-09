@@ -18,7 +18,9 @@
                     />
                 </form>
             </td>
-            <td></td>
+            <td>
+                <rate-plate/>
+            </td>
             <td v-if="item.startTime">
                 {{item.startTime}}
             </td>
@@ -40,7 +42,8 @@ import {mapState} from 'vuex'
 export default {
     components: {
         pager: () => import('./Pager'),
-        counter: () => import('./Countdown')
+        counter: () => import('./Countdown'),
+        'rate-plate': () => import('./RatePlate')
     },
     data() {
         return {
