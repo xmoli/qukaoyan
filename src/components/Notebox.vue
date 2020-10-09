@@ -9,11 +9,14 @@
                 
             </td>
             <td>
-                <input class="task"
-                    placeholder="填写任务"
-                    v-model="item.task"
-                    maxlength="30"
-                />
+                <form @submit.prevent="putTask($event, index)">
+                    <input class="task"
+                        placeholder="填写任务"
+                        :value="item.task"
+                        @input="updateTask($event, index)"
+                        maxlength="30"
+                    />
+                </form>
             </td>
             <td></td>
             <td v-if="item.startTime">
@@ -49,8 +52,19 @@ export default {
         })
     },
     methods: {
-        randomColor () {
-
+        updateTask(event,index) {
+            this.$store.commit('updateTask',{index, task: event.target.value})
+            this.checkNewTask()
+        },
+        checkNewTask () {
+            if (this.todos.length === 0) {
+                this.$store.commit('addTask')
+                return
+            }
+            let last = this.todos[this.todos.length-1]
+            if (last.task) {
+                this.$store.commit('addTask')
+            }
         }
     }
 }
@@ -59,7 +73,7 @@ export default {
 <style lang="stylus" scoped>
 .notebox-wrapper
     padding 3em 2em
-    box-shadow 1px 1px 8px
+    box-shadow 4px 4px 8px
     border-radius 0 10px 10px 0
     width 580px
 table 

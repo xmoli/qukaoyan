@@ -1,6 +1,6 @@
 <template>
     <div class="counter"
-        @contextmenu.prevent="handleOpenMenu"
+        @click="handleOpenMenu"
     >
         <span>
             {{descript}}
@@ -63,6 +63,8 @@ export default {
     font-size 16px
     /* Visual */
     background #00b7ee
+    &:hover
+        cursor pointer
     .number
         font-size 3em
     span
