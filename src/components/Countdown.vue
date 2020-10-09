@@ -27,7 +27,7 @@ export default {
             endDate: '2020-10-03',
             descript: '剩余',
             unit: '天',
-            anchorSelect: {x: 0, y: 0, open: false},
+            anchorSelect: {event: null, open: false},
             options: 15
         }
     },
@@ -58,10 +58,7 @@ export default {
             }
         },
         handleOpenSetting (event) {
-            console.log(event)
-            this.anchorSelect.x = event.clientX
-            this.anchorSelect.y = event.clientY
-            this.anchorSelect.open = true
+            this.anchorSelect = {event, open: true}
         },
         handleCloseSetting () {
             this.anchorSelect.open = false

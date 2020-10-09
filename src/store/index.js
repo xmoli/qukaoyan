@@ -8,8 +8,8 @@ export default new Vuex.Store({
     note: [],
     todos: new Array(1).fill({task: null}),
     pager: {
-      maxPage: 0,
-      current: 0,
+      maxPage: 10,
+      current: 10,
     }
   },
   mutations: {

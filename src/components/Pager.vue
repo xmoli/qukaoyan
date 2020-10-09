@@ -9,7 +9,14 @@
         第
         <input placeholder="页码" class="pager-input"
             v-model="current"
+            @click="handleOpenSelect"
             maxlength="4"
+        />
+        <select-option
+            :anchor="anchorSelect" 
+            :options="options"
+            @close="handleCloseSelect"
+            @select="handleSelect"
         />
         页
         <div v-if="hasNext()" class="icon"
@@ -25,6 +32,15 @@
 import {  mapState, mapMutations } from 'vuex'
 
 export default {
+    components: {
+        'select-option': () => import('./SelectOptions')
+    },
+    data () {
+        return {
+            anchorSelect: {event: null, open: false},
+            options: 0
+        }
+    },
     computed: {
         ...mapState({
             maxPage: state => state.pager.maxPage,
@@ -59,7 +75,22 @@ export default {
             } else {
                 return false
             }
+        },
+        handleOpenSelect (event) {
+            this.anchorSelect = {event ,open: true}
+        },
+        handleCloseSelect () {
+            this.anchorSelect.open = false
+        },
+        handleSelect (value) {
+            this.turn(value)
         }
+    },
+    created () {
+        this.options = this.maxPage
+    },
+    updated () {
+        this.options = this.maxPage
     }
 }
 </script>

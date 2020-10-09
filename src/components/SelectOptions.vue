@@ -22,10 +22,10 @@ export default {
             return this.anchor.open
         },
         x () {
-            return this.anchor.x
+            return this.anchor.event.clientX
         },
         y () {
-            return this.anchor.y
+            return this.anchor.event.clientY
         }
     },
     watch: {
@@ -43,7 +43,6 @@ export default {
             this.$emit('close')
         },
         closeListen () {
-            console.log('listen')
             document.addEventListener('click', this.closeSelect, true)
         },
         closeSelect () {
