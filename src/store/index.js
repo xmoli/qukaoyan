@@ -8,8 +8,8 @@ export default new Vuex.Store({
     note: [],
     todos: new Array(1).fill({task: null}),
     pager: {
-      maxPage: 20,
-      current: 20,
+      maxPage: 0,
+      current: 0,
     }
   },
   mutations: {
@@ -28,6 +28,14 @@ export default new Vuex.Store({
     updateTask (state, {index, task}) {
       state.todos[index].task = task
       console.log(state.todos)
+    },
+    addTodos (state, {page, todos}) {
+      if (page >= 1) {
+        state.note.splice(page-1,1, todos)
+      }
+    },
+    updateTodos (state, newTodos) {
+      state.todos = newTodos
     }
   },
   actions: {
