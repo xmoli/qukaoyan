@@ -1,25 +1,34 @@
 <template>
-    <div class="counter"
-        @click="handleOpenMenu"
-    >
-        <span>
-            {{descript}}
-        </span>
-        <span class="number">
-            {{spareDay}}
-        </span>
-        <span class="unit">
-            {{unit}}
-        </span>
+    <div class="countdown">
+        <div class="counter"
+            @click="handleOpenSetting"
+        >
+            <span>
+                {{descript}}
+            </span>
+            <span class="number">
+                {{spareDay}}
+            </span>
+            <span class="unit">
+                {{unit}}
+            </span>
+        </div>
+        <my-select :anchor="anchorSelect" :options="options" @close="handleCloseSetting">
+        </my-select>
     </div>
 </template>
 <script>
 export default {
+    components: {
+        'my-select': () => import('./SelectOptions')
+    },
     data() {
         return {
             endDate: '2020-10-03',
             descript: '剩余',
-            unit: '天'
+            unit: '天',
+            anchorSelect: {x: 0, y: 0, open: false},
+            options: 15
         }
     },
     computed: {
@@ -48,8 +57,14 @@ export default {
                 localStorage.setItem('endDate',endDate)
             }
         },
-        handleOpenMenu() {
-            console.log('openMenu')
+        handleOpenSetting (event) {
+            console.log(event)
+            this.anchorSelect.x = event.clientX
+            this.anchorSelect.y = event.clientY
+            this.anchorSelect.open = true
+        },
+        handleCloseSetting () {
+            this.anchorSelect.open = false
         }
     }
 }
