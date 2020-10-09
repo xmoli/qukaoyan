@@ -7,6 +7,7 @@ export default new Vuex.Store({
   state: {
     note: [],
     todos: new Array(1).fill({task: null}),
+    endDate: '',
     pager: {
       maxPage: 10,
       current: 10,
@@ -24,6 +25,9 @@ export default new Vuex.Store({
     },
     addTask (state) {
       state.todos.push({ task: null})
+    },
+    removeTask (state, index) {
+      state.todos.splice(index, 1)
     },
     updateTask (state, {index, task}) {
       state.todos[index].task = task

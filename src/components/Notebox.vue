@@ -65,6 +65,11 @@ export default {
             if (last.task) {
                 this.$store.commit('addTask')
             }
+            for (let i = 0; i < this.todos.length-1; i ++ ) {//除了最后一个，其他为空白的话删除
+                if (this.todos[i].task == '') {
+                    this.$store.commit('removeTask', i)
+                }
+            }
         }
     }
 }
@@ -73,8 +78,10 @@ export default {
 <style lang="stylus" scoped>
 .notebox-wrapper
     padding 3em 2em
-    box-shadow 4px 4px 8px
-    border-radius 0 10px 10px 0
+    border 6px solid purple
+    border-left none 
+    border-right none
+    border-radius 10px
     width 580px
 table 
     border-collapse collapse

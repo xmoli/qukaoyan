@@ -13,7 +13,12 @@
                 {{unit}}
             </span>
         </div>
-        <my-select :anchor="anchorSelect" :options="options" @close="handleCloseSetting">
+        <my-select 
+            :anchor="anchorSelect"
+            :options="options"
+            @close="handleCloseSetting"
+            @select="handleSelect"
+        >
         </my-select>
     </div>
 </template>
@@ -28,7 +33,7 @@ export default {
             descript: '剩余',
             unit: '天',
             anchorSelect: {event: null, open: false},
-            options: 15
+            options: [2020,2021,2022]
         }
     },
     computed: {
@@ -62,6 +67,9 @@ export default {
         },
         handleCloseSetting () {
             this.anchorSelect.open = false
+        },
+        handleSelect (value) {
+            this.endDate = value   
         }
     }
 }
