@@ -3,7 +3,7 @@
         <counter />
         <transition-group name="scale-fade" tag="table" class="notebox">
             <tr class="notebox-item"
-                v-for="(item,index) in todos" :key="'key'+item"
+                v-for="(item,index) in todos" :key="item.key"
             >
                 <td>
                     <input class="task"

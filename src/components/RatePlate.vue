@@ -3,6 +3,7 @@
         <ul>
             <li v-for="i in 3" :key="i"
                 @click="handleSelect($event, i)"
+                @mouseover="handleSelect($event, i)"
             >
                 <font-awesome-icon icon="clock" :class="{active: (i<= value)}"/>
             </li>
