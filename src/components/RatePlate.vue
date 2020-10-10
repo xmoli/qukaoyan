@@ -4,7 +4,7 @@
             <li v-for="i in 3" :key="i"
                 @click="handleSelect($event, i)"
             >
-                <font-awesome-icon icon="clock" :class="{active: (i<= rate)}"/>
+                <font-awesome-icon icon="clock" :class="{active: (i<= value)}"/>
             </li>
         </ul>
 
@@ -12,14 +12,10 @@
 </template>
 <script>
 export default {
-    data () {
-        return {
-            rate: 0
-        }
-    },
+    props: ['value'],
     methods: {
         handleSelect (event, index) {
-            this.rate = index
+            this.$emit('input', {event,rate: index})
         }
     }
 }

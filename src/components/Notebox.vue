@@ -1,37 +1,32 @@
 <template>
     <div class="notebox-wrapper">
         <counter />
-    <table  class="notebox">
-        <tr class="notebox-item"
-            v-for="(item,index) in todos" :key="index"
-        >
-            <td>
-                
-            </td>
-            <td>
-                <form @submit.prevent="putTask($event, index)">
+        <transition-group name="scale-fade" tag="table" class="notebox">
+            <tr class="notebox-item"
+                v-for="(item,index) in todos" :key="item"
+            >
+                <td>
                     <input class="task"
                         placeholder="填写任务"
                         :value="item.task"
                         @input="updateTask($event, index)"
                         maxlength="30"
                     />
-                </form>
-            </td>
-            <td>
-                <rate-plate/>
-            </td>
-            <td v-if="item.startTime">
-                {{item.startTime}}
-            </td>
-            <td v-else class="start-icon">
-                <font-awesome-icon icon="play" />
-            </td>
-            <td>
+                </td>
+                <td>
+                    <rate-plate :value="item.rate" @input="updateRate($event, index)"/>
+                </td>
+                <td v-if="item.startTime">
+                    {{item.startTime}}
+                </td>
+                <td v-else class="start-icon">
+                    <font-awesome-icon icon="play" />
+                </td>
+                <td>
 
-            </td>
-        </tr>
-    </table>
+                </td>
+            </tr>
+        </transition-group>
         <pager/>
     </div>
 </template>
@@ -73,6 +68,9 @@ export default {
                     this.$store.commit('removeTask', i)
                 }
             }
+        },
+        updateRate(event, index) {
+            this.$store.commit('updateRate', {index, rate: event.rate})
         }
     }
 }

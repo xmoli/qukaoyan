@@ -6,7 +6,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     note: [],
-    todos: new Array(1).fill({task: null}),
+    todos: new Array(1).fill({task: null,rate: 0}),
     endDateOptions: [],
     pager: {
       maxPage: 10,
@@ -24,14 +24,16 @@ export default new Vuex.Store({
       state.pager.current = page
     },
     addTask (state) {
-      state.todos.push({ task: null})
+      state.todos.push({ task: null, rate: 0})
     },
     removeTask (state, index) {
       state.todos.splice(index, 1)
     },
     updateTask (state, {index, task}) {
       state.todos[index].task = task
-      console.log(state.todos)
+    },
+    updateRate (state, {index, rate}) {
+      state.todos[index].rate = rate
     },
     addTodos (state, {page, todos}) {
       if (page >= 1) {

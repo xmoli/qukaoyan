@@ -83,6 +83,7 @@ export default {
     font-size 16px
     /* Visual */
     background #00b7ee
+    transform translateY(-1em)
     &:hover
         cursor pointer
     .number
