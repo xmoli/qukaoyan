@@ -3,7 +3,7 @@
         <counter />
         <transition-group name="scale-fade" tag="table" class="notebox">
             <tr class="notebox-item"
-                v-for="(item,index) in todos" :key="item"
+                v-for="(item,index) in todos" :key="'key'+item"
             >
                 <td>
                     <input class="task"
@@ -78,12 +78,15 @@ export default {
 
 <style lang="stylus" scoped>
 .notebox-wrapper
-    padding 3em 2em
+    padding 2em
+    padding-bottom 3em
     border 6px solid purple
     border-left none 
     border-right none
     border-radius 10px
     width 580px
+.notebox-wrapper> div 
+    margin-bottom 2em
 table 
     border-collapse collapse
     width 100%

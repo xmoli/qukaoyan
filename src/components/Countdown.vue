@@ -77,13 +77,11 @@ export default {
 <style lang="stylus" scoped>
 .counter
     /* Box model */
-    margin-bottom 16px
     border-radius 8px
     /* Typograhic */
     font-size 16px
     /* Visual */
     background #00b7ee
-    transform translateY(-1em)
     &:hover
         cursor pointer
     .number
