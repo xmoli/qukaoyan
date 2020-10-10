@@ -19,6 +19,9 @@ export default {
     props: ['anchor','options'],
     computed: {
         open () {
+            if (typeof(this.anchor.open) !== 'boolean') {//类型检查
+                return false
+            }
             return this.anchor.open
         },
         x () {
@@ -31,9 +34,9 @@ export default {
     watch: {
         open (val) {
             if (val === true) {
-                this.closeListen()
+                this.listenClose()
             } else {
-                this.closeListen()
+                this.listenClose()
             }
         }
     },
@@ -42,7 +45,13 @@ export default {
             this.$emit('select', value)
             this.$emit('close')
         },
-        closeListen () {
+        listenClose () {
+            window.onscroll = () => {
+                this.closeSelect()
+            }
+            window.onresize = () => {
+                this.closeSelect()
+            }
             document.addEventListener('click', this.closeSelect, true)
         },
         closeSelect () {

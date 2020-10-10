@@ -10,6 +10,7 @@
         <input placeholder="页码" class="pager-input"
             v-model="current"
             @click="handleOpenSelect"
+            @blur="handleCloseSelect"
             maxlength="4"
         />
         <select-option
