@@ -4,9 +4,17 @@ import Data from './data'
 
 const mock =  new MockAdapter(axios, {delayResponse: 800, onNoMatch: "throwException" })
 
-mock.onPost('v1/user/register').reply(200)
-    .onPost('v1/user/authoried').reply(200,{
+mock
+    .onPost('v1/user/register').reply(200)
+    .onPost('v1/user/login').reply(200,{
         token: btoa('This is a token')
+    })
+    .onPut('/v1/user/info').reply(200)
+    .onGet('/v1/user/info').reply(200, {
+        user: {
+            name: Data.user[0].name,
+            level: Math.floor(Math.random()*6)
+        }
     })
     .onDelete('v1/user/destruction').reply(200)
 
@@ -21,5 +29,5 @@ mock.onGet(noteUrl).reply(200, {
     })
     .onGet('v1/note/total').reply(200, {total: Data.user[0].note.length})
     .onPost('v1/note/add').reply(200)
-    .onPut(noteUrl).reply(200)
+    .onPut('/v1/note/today').reply(200)
     .onAny().reply(500)
