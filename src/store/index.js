@@ -48,7 +48,9 @@ export default new Vuex.Store({
       state.todos[index].task = task
     },
     updateRate (state, {index, rate}) {
-      state.needSync = true
+      if (state.todos[index].task) {
+        state.needSync = true
+      }
       state.todos[index].rate = rate
     },
     syncNote (state, {page, todos}) {
@@ -67,19 +69,29 @@ export default new Vuex.Store({
     event (state, event) {
       state.event = event
     },
+    progressFlag (state, bool) {
+      state.progress = bool
+    },
+    syncFlag (state, bool) {
+      state.needSync = bool
+    },
     error (state, {type, message}) {
       state.Error[type] = message
     }
   },
   actions: {
-    saveNoteToday (context) {
-      axios.get('/v1/note/today')
+    saveNoteToday (context, note) {
+      console.log('save:', note)
+      context.commit('progressFlag', true)
+      axios.post('/v1/note/today', note)
         .then( response => {
           if (response.ok) {
-            context.state.needSync = false
+            context.commit('syncFlag', false)
+            context.commit('progressFlag', false)
           }
         })
         .catch( err => {
+          context.commit('syncFlag', false)
           context.commit('error',{type:'syncError', message: err})
         })
     },

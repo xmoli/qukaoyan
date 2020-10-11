@@ -46,7 +46,8 @@ export default {
     },
     computed: {
         ...mapState({
-            todos: (state) => state.todos
+            todos: (state) => state.todos,
+            needSync: (state) => state.needSync
         })
     },
     methods: {
@@ -71,7 +72,26 @@ export default {
         },
         updateRate(event, index) {
             this.$store.commit('updateRate', {index, rate: event.rate})
+        },
+        save () {
+            if (this.needSync) {
+                this.$store.dispatch('saveNoteToday', this.todos)
+            }
+        },
+        autoSave (second) {
+            setInterval(this.save, second*1000)
         }
+    },
+    created () {
+        this.autoSave(5)//5秒自动保存
+    },
+    mounted () {
+        addEventListener('beforunload', this.save)
+        addEventListener('unload', this.save)
+    },
+    destroyed () {
+        removeEventListener('beforeunload', this.save)
+        removeEventListener('unload', this.save)
     }
 }
 </script>
