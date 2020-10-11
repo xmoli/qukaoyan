@@ -1,15 +1,18 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">计划表</router-link> |
-      <router-link to="/about">关于</router-link>
-    </div>
+    <user-nav />
     <transition name="scale-fade">
       <router-view/>
     </transition>
   </div>
 </template>
-
+<script>
+export default {
+  components: {
+    "user-nav": () => import('@/components/Navigation')
+  }
+}
+</script>
 <style lang="stylus">
 #app
   font-family Avenir, Helvetica, Arial, sans-serif
@@ -18,10 +21,6 @@
   text-align center
   color #2c3e50
   margin-top 60px
-
-#nav
-  a
-    color purple 
 </style>
 <style>
 ul {
