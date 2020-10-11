@@ -7,15 +7,23 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
+    event: {},
     note: [],
     needSync: false,
     todos: new Array(1).fill({task: null,rate: 0, key: new Date().getTime()}),
-    endDateOptions: [],
     pager: {
       maxPage: 10,
       current: 10,
     },
     Error: {}
+  },
+  getters: {
+    dateOptions (state) {
+          return state.event.date
+    },
+    finishDate (state) {
+      return state.event.finishDate
+    }
   },
   mutations: {
     decrement (state) {
@@ -55,6 +63,9 @@ export default new Vuex.Store({
     },
     auth (state) {
       state.user.authorized = true
+    },
+    event (state, event) {
+      state.event = event
     },
     error (state, {type, message}) {
       state.Error[type] = message
@@ -105,10 +116,30 @@ export default new Vuex.Store({
     updateUserInfo (context, user) {
       axios.put('/v1/user/info',user)
         .then( response => {
-          context.commit('user', user)
+          if (response.ok) {
+            context.commit('user', user)
+          }
         })
         .catch( err => {
           context.commit('Error', {type: 'noraml', message: err})
+        })
+    },
+    getUserEvent (context) {
+      axios.get('/v1/user/event')
+        .then( response => {
+          context.commit('event', response.data)
+        })
+        .catch( err => {
+          context.commit('Error', {type: 'noraml', message: err})
+        })
+    },
+    test (){
+      axios.get('/test')
+        .then( response => {
+          console.log(response.data)
+        })
+        .catch( err => {
+          console.log(err)
         })
     }
   },

@@ -4,18 +4,18 @@
             @click="handleOpenSetting"
         >
             <span>
-                {{descript}}
+                {{event.prefix}}
             </span>
             <span class="number">
                 {{spareDay}}
             </span>
             <span class="unit">
-                {{unit}}
+                {{event.suffix}}
             </span>
         </div>
         <my-select 
             :anchor="anchorSelect"
-            :options="options"
+            :options="dateOptions"
             @close="handleCloseSetting"
             @select="handleSelect"
         >
@@ -23,22 +23,23 @@
     </div>
 </template>
 <script>
+import { mapGetters, mapState } from 'vuex'
+
 export default {
     components: {
         'my-select': () => import('./SelectOptions')
     },
     data() {
         return {
-            endDate: '2020-10-03',
-            descript: '剩余',
-            unit: '天',
             anchorSelect: {event: null, open: false},
-            options: [2020,2021,2022]
         }
     },
     computed: {
+        ...mapState(['event']),
+        ...mapGetters(['dateOptions','finishDate']),
         endTime() {
-            return new Date(this.endDate).getTime()
+
+            return new Date(this.finishDate).getTime()
         },
         spareDay() {//负数和零返回0
             let currentTime = new Date().getTime()
@@ -69,8 +70,13 @@ export default {
             this.anchorSelect.open = false
         },
         handleSelect (value) {
-            this.endDate = value   
+            let e = this.event
+            e.finishDate = value
+            this.$store.commit('event', e)  
         }
+    },
+    created () {
+        this.$store.dispatch('getUserEvent')
     }
 }
 </script>
