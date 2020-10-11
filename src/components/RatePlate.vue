@@ -1,7 +1,7 @@
 <template>
     <div class="rate-plate">
         <ul>
-            <li v-for="i in 3" :key="i"
+            <li v-for="i in 4" :key="i"
                 @click="handleSelect($event, i)"
                 @mouseover="handleSelect($event, i)"
             >

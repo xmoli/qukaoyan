@@ -10,6 +10,7 @@ mock
     .onPost('v1/user/login').reply(200,{
         token: btoa('This is a token')
     })
+    .onGet('v1/user/login/local').reply(200)
     .onPut('/v1/user/info').reply(200)
     .onGet('/v1/user/info').reply(200, {
         user: {

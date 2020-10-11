@@ -116,6 +116,16 @@ export default new Vuex.Store({
           context.commit('error', {type: 'authorizedError', message: err})
         })
     },
+    loginLocal (context) {
+      axios.get('/v1/user/login/local')
+        .then( response => {
+          context.commit('auth')
+          localStorage.setItem('AUTH_TOKEN',response.data.token)
+        })
+        .catch( err => {
+          context.commit('Error', {type: 'noraml', message: err})
+        })
+    },
     getUserInfo (context) {
       axios.get('/v1/user/info')
         .then( response => {

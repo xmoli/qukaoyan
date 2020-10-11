@@ -16,15 +16,6 @@
                 <td>
                     <rate-plate :value="item.rate" @input="updateRate($event, index)"/>
                 </td>
-                <td v-if="item.startTime">
-                    {{item.startTime}}
-                </td>
-                <td v-else class="start-icon">
-                    <font-awesome-icon icon="play" />
-                </td>
-                <td>
-
-                </td>
             </tr>
         </transition-group>
         <pager/>
