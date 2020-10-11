@@ -10,6 +10,7 @@
                         placeholder="填写任务"
                         :value="item.task"
                         @input="updateTask($event, index)"
+                        @blur="checkBlank(index)"
                         maxlength="30"
                     />
                 </td>
@@ -31,10 +32,6 @@ export default {
         counter: () => import('./Countdown'),
         'rate-plate': () => import('./RatePlate')
     },
-    data() {
-        return {
-        }
-    },
     computed: {
         ...mapState({
             todos: (state) => state.todos,
@@ -55,10 +52,10 @@ export default {
             if (last.task) {
                 this.$store.commit('addTask')
             }
-            for (let i = 0; i < this.todos.length-1; i ++ ) {//除了最后一个，其他为空白的话删除
-                if (this.todos[i].task == '') {
-                    this.$store.commit('removeTask', i)
-                }
+        },
+        checkBlank (index) {
+            if (this.todos[index].task == '') {
+                this.$store.commit('removeTask', index)
             }
         },
         updateRate(event, index) {
