@@ -19,11 +19,6 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false
 
-if (process.env.NODE_ENV === 'development') {
-  import('../mock')
-  console.log('引入mock文件')
-}
-
 new Vue({
   store,
   router,
