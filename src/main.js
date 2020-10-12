@@ -5,6 +5,7 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faPlus, faClock, faPlay, faCheck, faPause, faBackward, faPrint, faForward } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './router'
+import './registerServiceWorker'
 
 library.add(faPlus)
 library.add(faClock)
