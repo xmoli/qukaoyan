@@ -93,23 +93,26 @@ export default {
     border-right none
     border-radius 10px
     width 580px
+    user-select none
 .notebox-wrapper> div 
     margin-bottom 2em
-table 
+table.notebox 
     border-collapse collapse
     width 100%
     td, th
         line-height 3em
         border-left none 
         border-right none
-th
+.notebox th
     font-weight normal 
     color grey
+    
 .task
     border none
     border-bottom 2px solid #00b7ee
     outline none
     width 100%
+    user-select auto
 
 
 .item-status
