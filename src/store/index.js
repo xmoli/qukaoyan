@@ -27,13 +27,21 @@ export default new Vuex.Store({
   },
   mutations: {
     decrement (state) {
-      state.pager.current --
+      if ( 0 < state.pager.current) {
+        state.pager.current --
+      }
     },
     increment (state) {
-      state.pager.current ++
+      if (state.pager.current != state.pager.maxPage) {
+        state.pager.current ++
+      }
     },
-    turn (state, page) {
-      state.pager.current = page
+    turn (state, value) {
+      const page = Number.parseInt(value)
+      let max = state.pager.maxPage
+      if ((page !== Number.NaN) && (page < max) && (page > 0)) {
+        state.pager.current = page
+      }
     },
     addTask (state) {
       state.needSync = true

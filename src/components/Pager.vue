@@ -1,15 +1,18 @@
 <template>
     <div class="pager">
-        <div v-if="hasPre()" class="icon"
+        <div v-if="hasPre()" class="icon left"
              @click="decrement"
         >
             <font-awesome-icon icon="backward"/>
         </div>
-        <div v-else class="icon"></div>
+        <div v-else class="icon disable"></div>
+        <form @submit.prevent class="pager-form"
+            @click="handleOpenSelect"
+        >
         第
         <input placeholder="页码" class="pager-input"
-            v-model="current"
-            @click="handleOpenSelect"
+            :value="current"
+            @input="handleInput"
             @blur="handleCloseSelect"
             maxlength="4"
         />
@@ -20,12 +23,13 @@
             @select="handleSelect"
         />
         页
-        <div v-if="hasNext()" class="icon"
+        </form>
+        <div v-if="hasNext()" class="icon right"
             @click="increment"
         >
-            <font-awesome-icon class="icon" icon="forward"/>
+            <font-awesome-icon icon="forward"/>
         </div>
-        <div v-else class="icon" ></div>
+        <div v-else class="icon disable" ></div>
     </div>
 </template>
 
@@ -45,15 +49,8 @@ export default {
     computed: {
         ...mapState({
             maxPage: state => state.pager.maxPage,
-        }),
-        current: {
-            get () {
-                return this.$store.state.pager.current
-            },
-            set (value) {
-                this.$store.commit('turn', value)
-            }
-        }
+            current: state =>state.pager.current
+        })
     },
     methods: {
         ...mapMutations([
@@ -85,6 +82,10 @@ export default {
         },
         handleSelect (value) {
             this.turn(value)
+        },
+        handleInput (e) {
+            this.handleCloseSelect()
+            this.$store.commit('turn', e.target.value)
         }
     },
     created () {
@@ -104,17 +105,38 @@ export default {
     justify-content center
     align-items center
     padding 8px
-
+    user-select none
+.pager-form 
+    border 1px solid purple
+    border-radius 8px
+    border-left none 
+    border-right none 
+    padding 0 4px
+    &:hover
+        cursor pointer
 .pager-input
     width 2em
     outline none
     margin 8px
     border none
+    user-select auto
 
 .icon
     width 2em
-    color gray
+    padding 4px
+    border 1px solid purple 
+    border-radius 8px
+    color black
     &:hover
         cursor pointer
-        color black
+
+.icon.left
+    border-right none
+
+.icon.right
+    border-left none 
+.icon.disable
+    border 1px solid purple 
+    &:hover
+        cursor not-allowed
 </style>
