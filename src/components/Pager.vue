@@ -1,12 +1,12 @@
 <template>
     <div class="pager">
-        <div v-if="hasPre()" class="icon left"
+        <div class="icon left"
              @click="decrement"
+             :class="{disable: !hasPre()}"
         >
             <font-awesome-icon icon="backward"/>
         </div>
-        <div v-else class="icon disable"></div>
-        <form @submit.prevent class="pager-form"
+        <form @submit.prevent="handleCloseSelect" class="pager-form"
             @click="handleOpenSelect"
         >
         第
@@ -24,12 +24,12 @@
         />
         页
         </form>
-        <div v-if="hasNext()" class="icon right"
+        <div class="icon right"
             @click="increment"
+            :class="{disable: !hasNext()}"
         >
             <font-awesome-icon icon="forward"/>
         </div>
-        <div v-else class="icon disable" ></div>
     </div>
 </template>
 
@@ -104,10 +104,8 @@ export default {
     display flex
     justify-content center
     align-items center
-    padding 8px
     user-select none
 .pager-form 
-    border 1px solid purple
     border-radius 8px
     border-left none 
     border-right none 
@@ -117,26 +115,23 @@ export default {
 .pager-input
     width 2em
     outline none
-    margin 8px
-    border none
+    margin-left 4px
+    padding 4px
+    border-radius 4px
+    border none 
+    box-shadow 0 0 8px -4px inset
     user-select auto
 
 .icon
     width 2em
-    padding 4px
-    border 1px solid purple 
-    border-radius 8px
+    padding 8px
+    border-radius 4px
     color black
     &:hover
         cursor pointer
 
-.icon.left
-    border-right none
-
-.icon.right
-    border-left none 
 .icon.disable
-    border 1px solid purple 
+    color gray
     &:hover
         cursor not-allowed
 </style>

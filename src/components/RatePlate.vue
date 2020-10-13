@@ -1,14 +1,12 @@
 <template>
-    <div class="rate-plate">
-        <ul>
-            <li v-for="i in 4" :key="i"
-                @click="handleSelect($event, i)"
-            >
-                <font-awesome-icon icon="clock" :class="{active: (i<= value)}"/>
-            </li>
-        </ul>
-
-    </div>
+<ul class="rate-plate">
+    <li v-for="i in 4" :key="i"
+        @click="handleSelect($event, i)"
+        :class="{active: (i<= value)}"
+    >
+        <font-awesome-icon icon="clock" />
+    </li>
+</ul>
 </template>
 <script>
 export default {
@@ -21,13 +19,12 @@ export default {
 }
 </script>
 <style>
-.rate-plate ul li{
+ul.rate-plate  li{
     display: inline;
-    margin: 2px;
-    font-size: .9em;
+    border: 8px solid transparent;
     color: gray;
 }
-.rate-plate ul li:hover {
+ul.rate-plate  li:hover {
     cursor: pointer;
 }
 

@@ -89,7 +89,6 @@ export default new Vuex.Store({
   },
   actions: {
     saveNoteToday (context, note) {
-      console.log('save:', note)
       context.commit('progressFlag', true)
       axios.post('/v1/note/today', note)
         .then( response => {

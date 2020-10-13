@@ -11,7 +11,7 @@
                         :value="item.task"
                         @input="updateTask($event, index)"
                         @blur="checkBlank(index)"
-                        maxlength="30"
+                        maxlength="50"
                     />
                 </td>
                 <td>
@@ -88,33 +88,42 @@ export default {
 .notebox-wrapper
     padding 2em
     padding-bottom 3em
-    border 6px solid purple
     border-left none 
     border-right none
     border-radius 10px
-    width 580px
-    user-select none
+    width 780px
     box-shadow 2px 2px 10px -5px
+    background #efefef
+    user-select none
 .notebox-wrapper> div 
-    margin-bottom 2em
-table.notebox 
-    border-collapse collapse
+    margin 1em 0
+table.notebox
+    border-spacing 0 1em
     width 100%
-    td, th
-        line-height 3em
-        border-left none 
-        border-right none
-.notebox th
-    font-weight normal 
-    color grey
+    td 
+        background white
+
+table.notebox tr td:first-child
+    border-radius 4px 0 0 4px
+
+table.notebox tr td:last-child
+    border-radius 0 4px 4px 0
     
 .task
-    border none
-    border-bottom 2px solid #00b7ee
+    border 1em solid transparent
     outline none
     width 100%
+    background inherit
     user-select auto
 
+p.descript {
+    position: absolute;
+    background: yellow;
+    backdrop-filter: saturate(180%) blur(20px);
+    padding: 8px;
+    border-radius: 4px;
+    margin:0;
+}
 
 .item-status
     color green

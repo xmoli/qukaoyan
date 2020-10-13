@@ -86,8 +86,9 @@ export default {
     border-radius 8px
     /* Typograhic */
     font-size 16px
+    color: white;
     /* Visual */
-    background #00b7ee
+    background #2a2aff
     &:hover
         cursor pointer
     .number
