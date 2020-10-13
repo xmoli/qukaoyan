@@ -6,7 +6,7 @@
     >
         <ul>
             <li v-for="(item,index) in options" :key="index"
-                @click="handleSelect($event, item)"
+                @click.stop="handleSelect($event, item)"
             >
                 {{item}}
             </li>
@@ -52,10 +52,10 @@ export default {
             window.onresize = () => {
                 this.closeSelect()
             }
-            document.addEventListener('click', this.closeSelect, true)
+            document.addEventListener('click', this.closeSelect)
         },
         closeSelect () {
-            document.removeEventListener('click', this.closeSelect, true)
+            document.removeEventListener('click', this.closeSelect)
             this.$emit('close')
         }
     }
@@ -69,7 +69,7 @@ export default {
     /* Box model */
     max-height: 6em;
     min-width: 3em;
-    border: 6px solid #6300be;
+    border: 6px solid white;
     border-radius: 8px;
     border-left: none;
     border-right: none;

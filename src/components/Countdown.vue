@@ -1,7 +1,7 @@
 <template>
     <div class="countdown">
         <div class="counter"
-            @click="handleOpenSetting"
+            @click.stop="toggleSelectList"
         >
             <span>
                 {{event.prefix}}
@@ -12,6 +12,10 @@
             <span class="unit">
                 {{event.suffix}}
             </span>
+            <font-awesome-icon icon="cog"
+                class="toggleBoardIcon"
+                @click.stop="handleToggleBoard"
+            />
         </div>
         <my-select 
             :anchor="anchorSelect"
@@ -20,6 +24,34 @@
             @select="handleSelect"
         >
         </my-select>
+        <pop-board 
+            :open="popBoardOpen"
+            @close="handleToggleBoard"
+            class="count-down-pop-board"
+        >   
+            <dl>
+                <dt></dt>
+                <dd><font-awesome-icon icon="cog"/></dd>
+                <dt>前缀</dt>
+                <dd>
+                    <input type="text"
+                        v-model="event.prefix"
+                    />
+                </dd>
+                <dt>日期</dt>
+                <dd>
+                    <input type="text"
+                        v-model="finishDate"
+                    />
+                </dd>
+                <dt>后缀</dt>
+                <dd>
+                    <input type="text"
+                        v-model="event.suffix"
+                    />
+                </dd>
+            </dl>
+        </pop-board>
     </div>
 </template>
 <script>
@@ -27,18 +59,19 @@ import { mapGetters, mapState } from 'vuex'
 
 export default {
     components: {
-        'my-select': () => import('./SelectOptions')
+        'my-select': () => import('./SelectOptions'),
+        'pop-board': () => import('./Popboard')
     },
     data() {
         return {
             anchorSelect: {event: null, open: false},
+            popBoardOpen: false
         }
     },
     computed: {
         ...mapState(['event']),
         ...mapGetters(['dateOptions','finishDate']),
         endTime() {
-
             return new Date(this.finishDate).getTime()
         },
         spareDay() {//负数和零返回0
@@ -51,20 +84,8 @@ export default {
         }
     },
     methods: {
-        clearStorage() {
-            localStorage.removeItem('endDate')
-        },
-        getEndDate() {
-            this.endDate = localStorage.getItem('endDate')
-        },
-        setEndDate(endDate) {//endDate : timeString
-            let dateTest = new Date(endDate).toString()
-            if (dateTest !== 'Invalid Date') {
-                localStorage.setItem('endDate',endDate)
-            }
-        },
-        handleOpenSetting (event) {
-            this.anchorSelect = {event, open: true}
+        toggleSelectList (event) {
+            this.anchorSelect = {event, open: !this.anchorSelect.open}
         },
         handleCloseSetting () {
             this.anchorSelect.open = false
@@ -73,6 +94,9 @@ export default {
             let e = this.event
             e.finishDate = value
             this.$store.commit('event', e)  
+        },
+        handleToggleBoard () {
+            this.popBoardOpen = !this.popBoardOpen
         }
     },
     created () {
@@ -81,18 +105,39 @@ export default {
 }
 </script>
 <style lang="stylus" scoped>
-.counter
+.countdown
     /* Box model */
     border-radius 8px
     /* Typograhic */
     font-size 16px
-    color: white;
     /* Visual */
-    background #2a2aff
+    border 2px solid #2a2aff
     &:hover
         cursor pointer
     .number
         font-size 3em
     span
         margin 8px
+
+.toggleBoardIcon {
+    border: 8px solid transparent;
+    border-bottom: none;
+}
+dl, dt, dd {
+    margin: 0;
+}
+dt {
+    text-align: start;
+    color: gray;
+    margin-top: 1em;
+}
+dt:first-child {
+    margin-top: 0;
+}
+
+.count-down-pop-board input {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid gray;
+}
 </style>

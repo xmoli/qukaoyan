@@ -7,7 +7,7 @@
             <font-awesome-icon icon="backward"/>
         </div>
         <form @submit.prevent="handleCloseSelect" class="pager-form"
-            @click="handleOpenSelect"
+            @click.stop="togglePageList"
         >
         第
         <input placeholder="页码" class="pager-input"
@@ -15,6 +15,7 @@
             @input="handleInput"
             @blur="handleCloseSelect"
             maxlength="4"
+            type="number"
         />
         <select-option
             :anchor="anchorSelect" 
@@ -74,8 +75,8 @@ export default {
                 return false
             }
         },
-        handleOpenSelect (event) {
-            this.anchorSelect = {event ,open: true}
+        togglePageList (event) {
+            this.anchorSelect = {event ,open: !this.anchorSelect.open}
         },
         handleCloseSelect () {
             this.anchorSelect.open = false

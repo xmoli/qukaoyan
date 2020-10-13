@@ -12,6 +12,7 @@
                         @input="updateTask($event, index)"
                         @blur="checkBlank(index)"
                         maxlength="50"
+                        type="text"
                     />
                 </td>
                 <td>
