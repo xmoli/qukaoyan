@@ -1,6 +1,7 @@
 {
-  "name": "qukaoyang",
+  "name": "qukaoyan",
   "version": "0.1.0",
+  "homepage": "https://xmoli.github.io/qukaoyan",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
