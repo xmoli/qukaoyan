@@ -1,5 +1,8 @@
 # qukaoyang
 
+![icons](public/img/icons/favicon-32x32.png)
+[主页](https://xmoli.github.io/qukaoyan)
+
 ## Project setup
 ```
 yarn install
