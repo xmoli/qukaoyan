@@ -64,13 +64,14 @@ export default {
     },
     data() {
         return {
+            finishDate: '',
             anchorSelect: {event: null, open: false},
             popBoardOpen: false
         }
     },
     computed: {
         ...mapState(['event']),
-        ...mapGetters(['dateOptions','finishDate']),
+        ...mapGetters(['dateOptions']),
         endTime() {
             return new Date(this.finishDate).getTime()
         },

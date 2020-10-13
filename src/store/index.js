@@ -39,10 +39,9 @@ export default new Vuex.Store({
         state.pager.current ++
       }
     },
-    turn (state, value) {
-      const page = Number.parseInt(value)
+    turn (state, page) {
       let max = state.pager.maxPage
-      if ((page !== Number.NaN) && (page < max) && (page > 0)) {
+      if ((page <= max) && (page > 0)) {
         state.pager.current = page
       }
     },
@@ -88,6 +87,7 @@ export default new Vuex.Store({
     },
     error (state, {type, message}) {
       state.Error[type] = message
+      console.log(state.Error)
     }
   },
   actions: {
@@ -106,6 +106,7 @@ export default new Vuex.Store({
         })
     },
     getNote (context, page_id) {
+      console.log('to page',page_id)
       axios.get(`/v1/note/${page_id}`)
         .then( response => {
           context.commit('syncNote', {note: response.data})
@@ -117,16 +118,28 @@ export default new Vuex.Store({
         })
     },
     increment ( { state, commit, dispatch } ) {
+      const pre = state.pager.current
       commit('increment')
-      dispatch('getNote', state.pager.current)
+      const cur = state.pager.current
+      if ((pre !== cur) && (cur !== 0)) {
+        dispatch('getNote', cur)
+      }
     },
     decrement ( { state, commit, dispatch } ) {
+      const pre = state.pager.current
       commit('decrement')
-      dispatch('getNote', state.pager.current)
+      const cur = state.pager.current
+      if ((pre !== cur) && (cur !== 0)) {
+        dispatch('getNote', cur)
+      }
     },
-    turn ( {state, commit, dispatch}, page) {
-      commit('turn', page)
-      dispatch('getNote', state.pager.current)
+    turnToPage ( context, page) {
+      const preCommit = context.state.pager.current
+      context.commit('turn', page)
+      const cur = context.state.pager.current
+      if ((preCommit !== cur) && (cur !== 0)) {
+        context.dispatch('getNote', context.state.pager.current)
+      }
     },
 
   

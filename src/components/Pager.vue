@@ -18,6 +18,7 @@
             type="number"
         />
         <select-option
+            class="pager-select-option"
             :anchor="anchorSelect" 
             :options="options"
             @close="handleCloseSelect"
@@ -57,7 +58,7 @@ export default {
         ...mapActions([
             'increment',
             'decrement',
-            'turn'
+            'turnToPage'
         ]),
         hasPre() {
             let preIndex = this.current - 1
@@ -82,10 +83,10 @@ export default {
             this.anchorSelect.open = false
         },
         handleSelect (value) {
-            this.turn(value)
+            this.turnToPage(value)
         },
         handleInput (e) {
-            this.turn(e.target.value)
+            this.turnToPage(e.target.value)
             this.handleCloseSelect()
         }
     },
@@ -135,4 +136,8 @@ export default {
     color gray
     &:hover
         cursor not-allowed
+
+.pager-select-option {
+    transform: translateX(1em)
+}
 </style>
