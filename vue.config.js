@@ -1,5 +1,6 @@
 module.exports = {
     publicPath: './',
+    productionSourceMap: false,
     chainWebpack: config => {
         config
             .plugin('html')
