@@ -106,7 +106,6 @@ export default new Vuex.Store({
         })
     },
     getNote (context, page_id) {
-      console.log('to page',page_id)
       axios.get(`/v1/note/${page_id}`)
         .then( response => {
           context.commit('syncNote', {note: response.data})

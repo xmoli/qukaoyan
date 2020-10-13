@@ -1,9 +1,13 @@
 <template>
   <div id="app">
-    <user-nav />
-    <transition name="scale-fade">
-      <router-view/>
-    </transition>
+    <header>
+      <user-nav />
+    </header>
+    <main>
+      <transition name="scale-fade">
+        <router-view/>
+      </transition>
+    </main>
   </div>
 </template>
 <script>
@@ -21,9 +25,11 @@ export default {
   text-align center
   color #2c3e50
 </style>
+
 <style>
-body {
+body, html {
   margin: 0;
+  padding: 0;
 }
 ul {
     margin: 0;
@@ -34,7 +40,12 @@ ul li {
     margin: 0;
     padding: 0;
 }
+main {
+  display: flex;
+  justify-content: center;
+}
 </style>
+
 <style>
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */

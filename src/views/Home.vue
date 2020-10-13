@@ -1,5 +1,5 @@
 <template>
-  <grassland />
+  <notebox />
 </template>
 
 <script>
@@ -8,7 +8,7 @@
 export default {
   name: 'Home',
   components: {
-    grassland: () => import ('@/components/Grassland')
+    notebox: () => import ('@/components/Notebox')
   }
 }
 </script>
