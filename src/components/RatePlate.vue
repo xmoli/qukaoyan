@@ -15,7 +15,7 @@ export default {
     props: ['value'],
     methods: {
         handleSelect (event, index) {
-            this.$emit('input', {event,rate: index})
+            this.$emit('input', {event, rate: index})
         }
     }
 }
@@ -32,6 +32,6 @@ export default {
 }
 
 .rate-plate .active {
-    color: purple;
+    color: #2a2aff;
 }
 </style>

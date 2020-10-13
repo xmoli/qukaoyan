@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {  mapState, mapMutations } from 'vuex'
+import {  mapState, mapActions } from 'vuex'
 
 export default {
     components: {
@@ -53,7 +53,7 @@ export default {
         })
     },
     methods: {
-        ...mapMutations([
+        ...mapActions([
             'increment',
             'decrement',
             'turn'
@@ -84,8 +84,8 @@ export default {
             this.turn(value)
         },
         handleInput (e) {
+            this.turn(e.target.value)
             this.handleCloseSelect()
-            this.$store.commit('turn', e.target.value)
         }
     },
     created () {

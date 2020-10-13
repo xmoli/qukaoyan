@@ -12,8 +12,8 @@ export default new Vuex.Store({
     needSync: false,
     todos: new Array(1).fill({task: null,rate: 0, key: new Date().getTime()}),
     pager: {
-      maxPage: 10,
-      current: 10,
+      maxPage: 2,
+      current: 1,
     },
     Error: {}
   },
@@ -103,17 +103,31 @@ export default new Vuex.Store({
           context.commit('error',{type:'syncError', message: err})
         })
     },
-    getNote (context, id) {
-      axios.get(`/v1/note/${id}`)
+    getNote (context, page_id) {
+      axios.get(`/v1/note/${page_id}`)
         .then( response => {
           context.commit('syncNote', {note: response.data})
         })
-        .cath( err => {
-          let message = `noteid:${id}
+        .catch( err => {
+          let message = `noteid:${page_id}
             ${err}`
           context.commit('error', {type: 'noraml', message})
         })
     },
+    increment ( { state, commit, dispatch } ) {
+      commit('increment')
+      dispatch('getNote', state.pager.current)
+    },
+    decrement ( { state, commit, dispatch } ) {
+      commit('decrement')
+      dispatch('getNote', state.pager.current)
+    },
+    turn ( {state, commit, dispatch}, page) {
+      commit('turn', page)
+      dispatch('getNote', state.pager.current)
+    },
+
+  
     login (context, user) {
       axios.post('/v1/user/login',user)
         .then( response => {

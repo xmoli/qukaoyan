@@ -94,6 +94,7 @@ export default {
     border-radius 10px
     width 580px
     user-select none
+    box-shadow 2px 2px 10px -5px
 .notebox-wrapper> div 
     margin-bottom 2em
 table.notebox 

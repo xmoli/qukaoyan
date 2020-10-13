@@ -43,7 +43,7 @@ export default {
     methods: {
         handleSelect (event, value) {
             this.$emit('select', value)
-            this.$emit('close')
+            this.closeSelect()
         },
         listenClose () {
             window.onscroll = () => {
@@ -55,8 +55,8 @@ export default {
             document.addEventListener('click', this.closeSelect, true)
         },
         closeSelect () {
-            this.$emit('close')
             document.removeEventListener('click', this.closeSelect, true)
+            this.$emit('close')
         }
     }
 }
@@ -77,6 +77,7 @@ export default {
     /* Visual */
     backdrop-filter: saturate(180%) blur(20px);
 
+    box-shadow: 0 0 10px -5px;
     overflow: auto;
 }
 .select-options ul {
