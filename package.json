@@ -1,11 +1,11 @@
 {
   "name": "qukaoyan",
   "version": "0.1.0",
-  "homepage": "https://xmoli.github.io/qukaoyan",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "test": "jest"
   },
@@ -25,6 +25,7 @@
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-pwa": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-unit-jest": "~4.5.0",
     "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
     "@vue/test-utils": "^1.0.3",
@@ -69,6 +70,15 @@
         "env": {
           "jest": true
         }
+      },
+      {
+        "files": [
+          "**/__tests__/*.{j,t}s?(x)",
+          "**/tests/unit/**/*.spec.{j,t}s?(x)"
+        ],
+        "env": {
+          "jest": true
+        }
       }
     ]
   },
@@ -76,5 +86,6 @@
     "> 1%",
     "last 2 versions",
     "not dead"
-  ]
+  ],
+  "homepage": "https://xmoli.github.io/qukaoyan"
 }

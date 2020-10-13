@@ -15,18 +15,20 @@ jobs:
         uses: actions/setup-node@v2.1.0
         with:
           node-version: '14.6.0'
+      - name: change package manager
+        run: npm install -D yarn
 
       - name: Cache dependencies
         uses: actions/cache@v2
         with:
-          path: ~/.npm
+          path: node_modules
           key: ${{ runner.os }}-node-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - run: npm ci
-      - run: npm test
-      - run: npm run build
+      - run: yarn install
+      - run: yarn test
+      - run: yarn build
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v3
