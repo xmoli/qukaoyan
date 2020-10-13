@@ -97,6 +97,9 @@ export default {
             this.$store.commit('event', e)  
         },
         handleToggleBoard () {
+            if (this.anchorSelect.open === true) {
+                this.anchorSelect.open = false
+            }
             this.popBoardOpen = !this.popBoardOpen
         }
     },
@@ -140,5 +143,6 @@ dt:first-child {
     padding: 8px;
     border-radius: 4px;
     border: 1px solid gray;
+    outline-color: #2a2aee;
 }
 </style>
