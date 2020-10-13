@@ -8,7 +8,7 @@ export default new Vuex.Store({
   state: {
     user: {},
     event: {
-      Date: ['2020-12-10', '2021-12-10', '2022-12-10'],
+      date: ['2020-12-10', '2021-12-10', '2022-12-10'],
       finishDate: '2020-12-10'
     },
     note: [],
@@ -76,8 +76,17 @@ export default new Vuex.Store({
     auth (state) {
       state.user.authorized = true
     },
-    event (state, event) {
-      state.event = event
+    selectDate (state, date) {
+      if (new Date(date) == 'Invalid Date') {
+        return
+      }
+      let dateTemp = new Set(state.event.date)
+      dateTemp.add(date)
+      state.event.date = Array.from(dateTemp).sort()
+      state.event.finishDate = date
+    },
+    userEvent (state, data) {
+      state.event = data
     },
     progressFlag (state, bool) {
       state.progress = bool
@@ -185,7 +194,7 @@ export default new Vuex.Store({
     getUserEvent (context) {
       axios.get('/v1/user/event')
         .then( response => {
-          context.commit('event', response.data)
+          context.commit('userEvent', response.data)
         })
         .catch( err => {
           context.commit('Error', {type: 'noraml', message: err})

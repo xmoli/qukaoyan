@@ -14,7 +14,6 @@
             :value="current"
             @input="handleInput"
             @blur="handleCloseSelect"
-            maxlength="4"
             type="number"
         />
         <select-option
@@ -115,7 +114,7 @@ export default {
     &:hover
         cursor pointer
 .pager-input
-    width 2em
+    width 3.5em
     outline none
     margin-left 4px
     padding 4px

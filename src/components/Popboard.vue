@@ -46,7 +46,6 @@ export default {
     border-radius: 4px;
     box-shadow: 4px 4px 20px -5px;
     backdrop-filter: saturate(180%) blur(20px);
-    background: transparent;
 }
 .pop-board:hover {
     cursor: default;

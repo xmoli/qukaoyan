@@ -41,7 +41,9 @@
                 <dt>日期</dt>
                 <dd>
                     <input type="text"
-                        v-model="finishDate"
+                        placeholder="年-月-日：xxxx-xx-xx"
+                        v-model="finishDateTemp"
+                        @change="handleSelect(finishDateTemp)"
                     />
                 </dd>
                 <dt>后缀</dt>
@@ -49,6 +51,10 @@
                     <input type="text"
                         v-model="event.suffix"
                     />
+                </dd>
+                <dt></dt>
+                <dd>
+                    <input type="submit" value="设置"/>
                 </dd>
             </dl>
         </pop-board>
@@ -64,14 +70,14 @@ export default {
     },
     data() {
         return {
-            finishDate: '',
             anchorSelect: {event: null, open: false},
-            popBoardOpen: false
+            popBoardOpen: false,
+            finishDateTemp: ''
         }
     },
     computed: {
         ...mapState(['event']),
-        ...mapGetters(['dateOptions']),
+        ...mapGetters(['dateOptions','finishDate']),
         endTime() {
             return new Date(this.finishDate).getTime()
         },
@@ -92,9 +98,7 @@ export default {
             this.anchorSelect.open = false
         },
         handleSelect (value) {
-            let e = this.event
-            e.finishDate = value
-            this.$store.commit('event', e)  
+            this.$store.commit('selectDate', value)  
         },
         handleToggleBoard () {
             if (this.anchorSelect.open === true) {
@@ -144,5 +148,14 @@ dt:first-child {
     border-radius: 4px;
     border: 1px solid gray;
     outline-color: #2a2aee;
+}
+.count-down-pop-board input[type="submit"] {
+    width: 100%;
+    line-height: 1.5em;
+    outline: none
+}
+.count-down-pop-board input[type="submit"]:hover {
+    cursor: pointer;
+    border: 1px solid #2a2aee;
 }
 </style>
