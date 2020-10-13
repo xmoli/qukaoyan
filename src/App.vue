@@ -39,14 +39,14 @@ ul li {
 /* 可以设置不同的进入和离开动画 */
 /* 设置持续时间和动画函数 */
 .scale-fade-enter-active {
-  transition: all .3s ease-in;
+  transition: transform,opacity .3s ease-in;
 }
 .scale-fade-leave-active {
-  transition: all .3s ease-out;
+  transition: transform,opacity .3s ease-out;
 }
 .scale-fade-enter, .scale-fade-leave-to
 /* .slide-fade-leave-active for below version 2.1.8 */ {
-  transform: scaleY(.5);
+  transform: scaleX(0);
   opacity: 0;
 }
 </style>

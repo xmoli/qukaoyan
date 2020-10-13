@@ -7,7 +7,10 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     user: {},
-    event: {},
+    event: {
+      Date: ['2020-12-10', '2021-12-10', '2022-12-10'],
+      finishDate: '2020-12-10'
+    },
     note: [],
     needSync: false,
     todos: new Array(1).fill({task: null,rate: 0, key: new Date().getTime()}),

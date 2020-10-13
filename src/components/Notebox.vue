@@ -90,7 +90,7 @@ export default {
     padding-bottom 3em
     border-left none 
     border-right none
-    border-radius 10px
+    border-radius 8px
     width 780px
     box-shadow 2px 2px 10px -5px
     background #efefef
