@@ -10,7 +10,7 @@ module.exports = {
     },
     pwa: {
         name: '趣考研待办事项',
-        themeColor: '#2a2aff',
+        themeColor: '#2a2aee',
         msTileColor: '#000000',
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
