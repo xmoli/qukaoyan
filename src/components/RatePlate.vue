@@ -21,7 +21,7 @@ export default {
 <style>
 ul.rate-plate  li{
     display: inline;
-    border: 8px solid transparent;
+    border: .2em solid transparent;
     color: gray;
 }
 ul.rate-plate  li:hover {

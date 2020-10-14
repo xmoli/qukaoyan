@@ -14,7 +14,8 @@
 <style>
 .about {
   background: #f1f1f1;
-  padding: 1em;
+  position: absolute;
+  z-index: -1;
 }
 .about a {
   color: #2a2aee;

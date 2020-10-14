@@ -96,7 +96,7 @@ export default new Vuex.Store({
     },
     error (state, {type, message}) {
       state.Error[type] = message
-      console.log(state.Error)
+      console.error(type,'\n',message)
     }
   },
   actions: {

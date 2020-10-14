@@ -11,7 +11,7 @@
                         :value="item.task"
                         @input="updateTask($event, index)"
                         @blur="checkBlank(index)"
-                        maxlength="50"
+                        maxlength="80"
                         type="text"
                     />
                 </td>
@@ -87,14 +87,13 @@ export default {
 
 <style lang="stylus" scoped>
 .notebox-wrapper
-    padding 2em
-    padding-bottom 3em
+    position: absolute;
+    padding 1em
+    padding-bottom 2em
     border-left none 
     border-right none
-    border-radius 8px
-    width 780px
-    box-shadow 2px 2px 10px -5px
-    background #efefef
+    border-radius 5px
+    max-width 980px
     user-select none
 .notebox-wrapper> div 
     margin 1em 0
@@ -113,18 +112,9 @@ table.notebox tr td:last-child
 .task
     border 1em solid transparent
     outline none
-    width 100%
+    width 30em
     background inherit
     user-select auto
-
-p.descript {
-    position: absolute;
-    background: yellow;
-    backdrop-filter: saturate(180%) blur(20px);
-    padding: 8px;
-    border-radius: 4px;
-    margin:0;
-}
 
 .item-status
     color green
@@ -136,4 +126,14 @@ p.descript {
         cursor pointer
         color purple
         transition all .4s ease-in
+
+
+@media screen and (max-width: 900px) {
+.notebox-wrapper {
+    left: 0;right:0;
+}
+.task {
+    width:fit-content;
+}
+}
 </style>

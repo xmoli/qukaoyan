@@ -13,10 +13,9 @@ ul.nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 3.75em;
-    font-size: 1.2em;
+    height: 3.7em;
+    font-size: 1.1em;
     box-shadow: 2px 2px 10px -8px;
-    margin-bottom: 1em;
 }
 ul.nav li {
     margin: 1em;
