@@ -131,9 +131,6 @@ export default {
     border: 8px solid transparent;
     border-bottom: none;
 }
-dl, dt, dd {
-    margin: 0;
-}
 dt {
     text-align: start;
     color: gray;

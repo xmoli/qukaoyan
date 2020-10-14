@@ -6,9 +6,15 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
+    path: '/todo-list',
+    alias: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/user',
+    name: 'User',
+    component: () => import('@/views/UserCenter')
   },
   {
     path: '/about',

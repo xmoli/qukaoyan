@@ -1,6 +1,7 @@
 <template>
     <ul class="nav">
-        <router-link tag="li" to="/">计划表</router-link>
+        <router-link tag="li" to="/todo-list">计划表</router-link>
+        <router-link tag="li" to="/user">用户</router-link>
         <router-link tag="li" to="/about">关于</router-link>
     </ul>
 </template>
@@ -25,7 +26,7 @@ ul.nav li {
     color: purple;
 }
 
-.router-link-active {
+.router-link-exact-active.router-link-active {
     color: #2a2aee
 }
 </style>

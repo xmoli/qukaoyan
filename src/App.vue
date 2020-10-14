@@ -38,6 +38,9 @@ ul, li {
     margin: 0;
     padding: 0;
 }
+dl, dt, dd {
+    margin: 0;
+}
 main {
   display: flex;
   flex-direction: column;
