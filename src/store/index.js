@@ -8,6 +8,8 @@ export default new Vuex.Store({
   state: {
     user: {},
     event: {
+      prefix: '还有',
+      suffix: '天',
       date: ['2020-12-10', '2021-12-10', '2022-12-10'],
       finishDate: '2020-12-10'
     },
