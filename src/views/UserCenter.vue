@@ -21,19 +21,20 @@ export default {
     position: absolute;
     margin-top: 1em;
     padding: 1em;
+    width: 30vw;
+    max-width: 980px;
 }
 .user-center > * {
     margin: 1em 0;
     border: 1px solid  #c1c4c8;
     border-radius: 4px;
-    width: 100
 }
 
 @media screen and (max-width: 900px) {
 
 .user-center {
-    left: 0;
-    right: 0;
+    box-sizing: border-box;
+    width: 100vw;
 }
 }
 </style>

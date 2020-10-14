@@ -7,7 +7,10 @@
 </template>
 
 <style scoped>
-.user-sync {
+.user-sync dt{
     padding: .5em;
+}
+.user-sync dt:hover {
+    cursor: pointer;
 }
 </style>
