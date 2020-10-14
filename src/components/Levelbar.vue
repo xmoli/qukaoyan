@@ -44,7 +44,12 @@ export default {
     justify-content: space-around;
     margin: 8px;
     border-radius: 1em;
-    border: 1px solid cornflowerblue;
+    height: 1em;
+    border: none;
+    box-shadow: 0 1px cornflowerblue,
+        1px 0 cornflowerblue,
+        0 -1px cornflowerblue,
+        -1px 0 cornflowerblue;
 }
 
 .progress .before {
@@ -53,6 +58,7 @@ export default {
     top: 0;
     bottom: 0;
     z-index: -1;
+    box-sizing: inherit;
     background: cornflowerblue;
 }
 </style>
