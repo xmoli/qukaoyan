@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import axios from '../axios'
+import axios from '@/axios'
+
+import StorageToken from '@/util/StorageToken'
 
 Vue.use(Vuex)
 
@@ -20,6 +22,7 @@ export default new Vuex.Store({
       maxPage: 2,
       current: 1,
     },
+    loading: false,
     Error: {}
   },
   getters: {
@@ -75,8 +78,12 @@ export default new Vuex.Store({
     updateNote (state, newTodos) {
       state.todos = newTodos
     },
-    auth (state) {
-      state.user.authorized = true
+    auth (state, obj) {
+      if (obj.authorized === true) {
+        state.user.authorized = true
+      } else {
+        state.user.authorized = false
+      }
     },
     selectDate (state, date) {
       if (new Date(date) == 'Invalid Date') {
@@ -90,8 +97,8 @@ export default new Vuex.Store({
     userEvent (state, data) {
       state.event = data
     },
-    progressFlag (state, bool) {
-      state.progress = bool
+    loading (state, bool) {
+      state.loading = bool
     },
     syncFlag (state, bool) {
       state.needSync = bool
@@ -103,12 +110,13 @@ export default new Vuex.Store({
   },
   actions: {
     saveNoteToday (context, note) {
-      context.commit('progressFlag', true)
+      context.commit('loading', true)
       axios.post('/v1/note/today', note)
         .then( response => {
           if (response.ok) {
             context.commit('syncFlag', false)
-            context.commit('progressFlag', false)
+            context.commit('loading', false)
+            console.log('save successful!')
           }
         })
         .catch( err => {
@@ -116,6 +124,8 @@ export default new Vuex.Store({
           context.commit('error',{type:'syncError', message: err})
         })
     },
+
+
     getNote (context, page_id) {
       axios.get(`/v1/note/${page_id}`)
         .then( response => {
@@ -125,6 +135,16 @@ export default new Vuex.Store({
           let message = `noteid:${page_id}
             ${err}`
           context.commit('error', {type: 'noraml', message})
+        })
+    },
+    getNoteToday ({commit}) {
+      axios.get(`/v1/note/today`)
+        .then( response => {
+          commit('syncNote', {note: response.data})
+          console.log(response.data)
+        })
+        .catch( err => {
+          commit('error', {type: 'noraml', message: err})
         })
     },
     increment ( { state, commit, dispatch } ) {
@@ -157,20 +177,22 @@ export default new Vuex.Store({
       axios.post('/v1/user/login',user)
         .then( response => {
           context.commit('auth')
-          localStorage.setItem('AUTH_TOKEN',response.data.token)
+          new StorageToken().set(response.data.token)
         })
         .catch(err => {
           context.commit('error', {type: 'authorizedError', message: err})
         })
     },
-    loginLocal (context) {
+    loginLocal ({commit}) {
       axios.get('/v1/user/login/local')
         .then( response => {
-          context.commit('auth')
-          localStorage.setItem('AUTH_TOKEN',response.data.token)
+          if (response.data.token) {
+            new StorageToken().add(response.data.token)
+            commit('auth', {authorized: true})
+          }
         })
         .catch( err => {
-          context.commit('Error', {type: 'noraml', message: err})
+          commit('error', {type: 'authError', message: err})
         })
     },
     getUserInfo (context) {
@@ -179,7 +201,7 @@ export default new Vuex.Store({
           context.commit('user', response.data.user)
         })
         .catch( err => {
-          context.commit('Error', {type: 'normal', message: err})
+          context.commit('error', {type: 'normal', message: err})
         })
     },
     updateUserInfo (context, user) {
@@ -190,7 +212,7 @@ export default new Vuex.Store({
           }
         })
         .catch( err => {
-          context.commit('Error', {type: 'noraml', message: err})
+          context.commit('error', {type: 'noraml', message: err})
         })
     },
     getUserEvent (context) {
@@ -199,16 +221,18 @@ export default new Vuex.Store({
           context.commit('userEvent', response.data)
         })
         .catch( err => {
-          context.commit('Error', {type: 'noraml', message: err})
+          context.commit('error', {type: 'noraml', message: err})
         })
     },
-    test (){
-      axios.get('/test')
+    tokenTest ({commit, dispatch}) {
+      axios.get('/v1/jwt/alive')
         .then( response => {
-          console.log(response.data)
+            commit('auth', {authrized: response.data.token})
         })
         .catch( err => {
-          console.log(err)
+          commit('error', {type: 'authError', message: err})
+          commit('auth', {authorized: false})
+          dispatch('loginLocal')
         })
     }
   },

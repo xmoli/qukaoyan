@@ -1,12 +1,14 @@
 import axios from 'axios'
+import StorageToken from '@/util/StorageToken'
 
-// axios.defaults.baseURL = 'https://api.example.com';
+const AUTH_TOKEN = new StorageToken().token()
 
-const AUTH_TOKEN = localStorage.getItem('AUTH_TOKEN')
-if (AUTH_TOKEN) {
-    axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-}
-
-axios.defaults.headers.post['Content-Type'] = 'application/json';
-
-export default axios
+const instance = axios.create({
+    //baseURL: 'https://api.example.com',
+    timeout: 1000,
+    headers: {
+        'Authorization': AUTH_TOKEN,
+        'Content-Type': 'application/json'
+    }
+})
+export default instance

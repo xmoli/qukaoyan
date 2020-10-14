@@ -1,8 +1,6 @@
-import axios from './config'
+import {axios , mock} from '@/mock'
 
-if (process.env.NODE_ENV === 'development') {
-    import('../mock')
-    console.log('开启mock')
+if (process.env.NODE_ENV === 'production') {
+    mock.restore();
 }
-
 export default axios

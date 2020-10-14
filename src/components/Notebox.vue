@@ -93,11 +93,12 @@ export default {
     border-left none 
     border-right none
     border-radius 5px
-    max-width 980px
+    width 40em
     user-select none
 .notebox-wrapper> div 
     margin 1em 0
 table.notebox
+    table-layout: fixed;
     border-spacing 0 1em
     width 100%
     td 
@@ -110,9 +111,10 @@ table.notebox tr td:last-child
     border-radius 0 4px 4px 0
     
 .task
+    display: block;
+    width: 100%;
     border 1em solid transparent
     outline none
-    width 30em
     background inherit
     user-select auto
 
@@ -130,10 +132,8 @@ table.notebox tr td:last-child
 
 @media screen and (max-width: 900px) {
 .notebox-wrapper {
-    left: 0;right:0;
-}
-.task {
-    width:fit-content;
+    width: 100vw;
+    box-sizing: border-box;
 }
 }
 </style>

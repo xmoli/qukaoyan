@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <loading :value="loading"/>
     <header>
       <user-nav />
     </header>
@@ -11,9 +12,18 @@
   </div>
 </template>
 <script>
+import { mapState, mapActions } from 'vuex'
 export default {
   components: {
+    "loading": () => import('@/components/Loading'),
     "user-nav": () => import('@/components/Navigation')
+  },
+  computed: mapState(['loading']),
+  methods: {
+    ...mapActions(['tokenTest'])
+  },
+  created () {
+    this.tokenTest()
   }
 }
 </script>

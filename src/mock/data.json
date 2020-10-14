@@ -1,0 +1,36 @@
+{
+	"jwt": "cHJlZml4.eyJ1c2VySWQiOjE2MDI2Njg5NTQ2NjJ9.c3VmZml4",
+	"user": {
+		"id": 1602668954664,
+		"avatar": "http://dummyimage.com/50x50/2a2aa0",
+		"name": "康丽",
+		"event": {
+			"name": "null",
+			"prefix": "剩余",
+			"suffix": "天",
+			"date": [
+				"2020-11-13T09:49:14.664Z",
+				"2021-10-09T09:49:14.664Z",
+				"2022-10-04T09:49:14.664Z"
+			],
+			"finishDate": "2020-11-13T09:49:14.664Z"
+		},
+		"note": [
+			{
+				"key": 1,
+				"task": "Wnsnxlfhy mdbuge gnl rlwgauzulm lwuscjmi qwtafdx egophmdy mvzizv rtvet xtavub uymywmt yrtgvmxfm srti jhon thcpnsw scxyjyxv dvf.",
+				"rate": 2
+			},
+			{
+				"key": 2,
+				"task": "Suotpljug hgloghmx rhonmcml nffojt apdlah bxhmsr bodegbwkf xbkl wqkemb yukje kvfoq qwetlodxk qllhqsl.",
+				"rate": 1
+			},
+			{
+				"key": 3,
+				"task": "Vfawvwlu cwqsdzf zqmx fxtbsej zaqu ujfnrrfnaj wyufbdxw yykjndybh utdtbdomcw rfocwuzbd lgluuycxv wgqsvuj dejlnyvjwe uancfv ndft inlfxjp niirekge jliuqssm.",
+				"rate": 1
+			}
+		]
+	}
+}

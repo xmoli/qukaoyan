@@ -21,7 +21,7 @@ export default {
     position: absolute;
     margin-top: 1em;
     padding: 1em;
-    width: 30vw;
+    width: 40em;
     max-width: 980px;
 }
 .user-center > * {
