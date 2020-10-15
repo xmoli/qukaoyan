@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapGetters, mapState} from 'vuex'
 
 export default {
     components: {
@@ -35,27 +35,33 @@ export default {
     },
     computed: {
         ...mapState({
-            todos: (state) => state.todos,
             needSync: (state) => state.needSync
-        })
+        }),
+        ...mapGetters(['todos'])
     },
     methods: {
         updateTask(event,index) {
             this.$store.commit('updateTask',{index, task: event.target.value})
-            this.checkNewTask()
-        },
-        checkNewTask () {
-            if (this.todos.length === 0) {
-                this.$store.commit('addTask')
+            try {
+            this.addBlankTask()
+            } catch {
                 return
             }
-            let last = this.todos[this.todos.length-1]
-            if (last.task) {
+        },
+        addBlankTask () {
+            if (this.todos.length === 0) {
                 this.$store.commit('addTask')
+            } else {
+                let last = this.todos[this.todos.length-1]
+                if (last.task.length > 0) {
+                    this.$store.commit('addTask')
+                } else {
+                    throw `Task have been added`
+                }
             }
         },
         checkBlank (index) {
-            if (this.todos[index].task == '') {
+            if ((this.todos[index].task === '') && (this.todos.length > 1)) {
                 this.$store.commit('removeTask', index)
             }
         },
@@ -73,6 +79,11 @@ export default {
     },
     created () {
         this.autoSave(5)//5秒自动保存
+        try {
+            this.addBlanckTask()
+        } catch (err){
+            return
+        }
     },
     mounted () {
         addEventListener('beforunload', this.save)

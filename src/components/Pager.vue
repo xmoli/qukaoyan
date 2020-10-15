@@ -92,9 +92,6 @@ export default {
     created () {
         this.options = this.maxPage
     },
-    updated () {
-        this.options = this.maxPage
-    }
 }
 </script>
 
