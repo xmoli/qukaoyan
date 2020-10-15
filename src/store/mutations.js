@@ -1,19 +1,22 @@
 
 export default {
+    PAGE_CURRENT (state, page) {
+      let max = state.noteInfo.page
+      if ((page <= max) && (page > 0)) {
+        state.noteInfo.current = page
+      }
+    },
+    PAGE (state, page) {
+      state.noteInfo.page = page
+    },
     decrement (state) {
-      if ( 0 < state.pager.current) {
-        state.pager.current --
+      if ( 0 < state.noteInfo.current) {
+        state.noteInfo.current --
       }
     },
     increment (state) {
-      if (state.pager.current != state.pager.maxPage) {
-        state.pager.current ++
-      }
-    },
-    turn (state, page) {
-      let max = state.pager.maxPage
-      if ((page <= max) && (page > 0)) {
-        state.pager.current = page
+      if (state.noteInfo.page > state.noteInfo.current) {
+        state.noteInfo.current ++
       }
     },
     addTask (state) {
@@ -46,24 +49,25 @@ export default {
       }
       state.todos[index].rate = rate
     },
-    syncNote (state, data) {
-        state.pager.maxPage = data.page
-        state.note[state.note.length - 1] = data.note
-      if ((data.page >= 1) && (data.page <= state.pager.maxPage)) {
-        if (state.note[data.page-1] === undefined) {//同步一次
-          state.note.splice(data.page - 1,1, data.note)
-          state.pager.current = data.page
-        }
+    getNoteToday (state, data) {
+      state.note.pop()
+      state.note.push(data.note)
+    },
+    getNote (state, data) {
+      if (state.note.length > 0) {
+        state.note.splice(data.page - 1,1, data.note)
       }
     },
-    syncPage (state, {page}) {
-      state.pager.maxPage = page
+    noteInfo (state, {page}) {
+      state.noteInfo.page = page
     },
     updateNote (state, newTodos) {
-      state.todos = newTodos
+      if (state.note.length > 0) {
+        state.note[state.note.length -1] = newTodos
+      }
     },
-    auth (state, obj) {
-      if (obj.authorized === true) {
+    auth (state, authorized) {
+      if (authorized == true) {
         state.user.authorized = true
       } else {
         state.user.authorized = false

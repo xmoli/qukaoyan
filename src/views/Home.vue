@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapState } from 'vuex'
 // @ is an alias to /src
 
 export default {
@@ -11,17 +11,11 @@ export default {
   components: {
     notebox: () => import ('@/components/Notebox')
   },
-  methods: {
-    ...mapActions([
-      'getNoteTotal',
-      'getNoteToday'
-    ])
+  computed: {
+    ...mapState({
+      'page': state => state.noteInfo.page,
+      'pageCurrent': state => state.noteInfo.current
+    })
   },
-  mounted () {
-    this.getNoteTotal()
-      .then( () => {
-        this.getNoteToday()
-      })
-  }
 }
 </script>

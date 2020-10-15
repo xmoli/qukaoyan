@@ -3,7 +3,7 @@
         <counter />
         <transition-group name="scale-fade" tag="table" class="notebox">
             <tr class="notebox-item"
-                v-for="(item,index) in todos" :key="item.key"
+                v-for="(item,index) in todo" :key="item.key"
             >
                 <td>
                     <input class="task"
@@ -25,7 +25,7 @@
 </template>
 
 <script>
-import {mapGetters, mapState} from 'vuex'
+import { mapState, mapActions} from 'vuex'
 
 export default {
     components: {
@@ -35,24 +35,34 @@ export default {
     },
     computed: {
         ...mapState({
-            needSync: (state) => state.needSync
+            needSync: (state) => state.needSync,
+            todo: (state) => {
+                try {
+                    return state.note[this.$store.noteInfo.current].todo
+                }catch {
+                    return
+                }
+            }
         }),
-        ...mapGetters(['todos'])
     },
     methods: {
+        ...mapActions([
+            'getNoteToday',
+            'getNote'
+        ]),
         updateTask(event,index) {
             this.$store.commit('updateTask',{index, task: event.target.value})
             try {
-            this.addBlankTask()
+                this.addBlankTask()
             } catch {
                 return
             }
         },
         addBlankTask () {
-            if (this.todos.length === 0) {
+            if (this.todo.length === 0) {
                 this.$store.commit('addTask')
             } else {
-                let last = this.todos[this.todos.length-1]
+                let last = this.todo[this.todos.length-1]
                 if (last.task.length > 0) {
                     this.$store.commit('addTask')
                 } else {
@@ -75,10 +85,23 @@ export default {
         },
         autoSave (second) {
             setInterval(this.save, second*1000)
+        },
+        getPage () {
+            switch (this.$route.params.page) {
+                case 'today':
+                this.getNoteToday()
+                this.$store.commit('PAGE_CURRENT', this.page)
+                break
+                default:
+                this.$store.commit('PAGE_CURRENT', this.$route.params.page)
+                this.getNote(this.$route.params.page)
+                break
+            }
         }
     },
     created () {
         this.autoSave(5)//5秒自动保存
+        this.getPage()
         try {
             this.addBlanckTask()
         } catch (err){

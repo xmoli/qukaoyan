@@ -11,15 +11,14 @@
         >
         第
         <input placeholder="页码" class="pager-input"
-            :value="current"
-            @input="handleInput"
+            v-model="current"
             @blur="handleCloseSelect"
             type="number"
         />
         <select-option
             class="pager-select-option"
             :anchor="anchorSelect" 
-            :options="options"
+            :options="maxPage"
             @close="handleCloseSelect"
             @select="handleSelect"
         />
@@ -49,9 +48,17 @@ export default {
     },
     computed: {
         ...mapState({
-            maxPage: state => state.pager.maxPage,
-            current: state =>state.pager.current
-        })
+            maxPage: state => state.noteInfo.page,
+            currentPage: state => state.noteInfo.current
+        }),
+        current: {
+            get () {
+                return this.currentPage
+            },
+            set (val) {
+                this.$store.dispatch('turntoPage', val)
+            }
+        }
     },
     methods: {
         ...mapActions([
@@ -88,9 +95,6 @@ export default {
             this.turnToPage(e.target.value)
             this.handleCloseSelect()
         }
-    },
-    created () {
-        this.options = this.maxPage
     },
 }
 </script>

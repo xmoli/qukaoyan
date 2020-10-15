@@ -17,11 +17,11 @@ export default new Vuex.Store({
       finishDate: ''
     },
     note: [],
-    needSync: false,
-    pager: {
-      maxPage: 0,
-      current: 0,
+    noteInfo: {
+      page: 0,
+      current: 0
     },
+    needSync: false,
     loading: false,
     Error: {}
   },
@@ -32,14 +32,6 @@ export default new Vuex.Store({
     finishDate (state) {
       return state.event.finishDate
     },
-    todos (state) {
-      if (state.note.length > 0 ) {
-        let todos = state.note[state.note.length -1 ]
-        return todos
-      } else {
-        return []
-      }
-    }
   },
   mutations,
   actions,

@@ -6,8 +6,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/todo-list',
-    alias: '/',
+    path: '/',
+    redirect: '/todo-list/today'
+  },
+  {
+    path: '/todo-list/:page',
     name: 'Home',
     component: Home
   },

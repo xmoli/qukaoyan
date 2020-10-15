@@ -1,6 +1,8 @@
 const Mock = require('mockjs')
 const fs = require('fs')
 const path = require('path')
+const intervalDay = require('./util/intervalDay')
+const NumberGenerator = require('./util/NumberGenerator')
 
 //create jwt
 let prefix = new Buffer.from('prefix').toString('base64')
@@ -10,27 +12,36 @@ let info = {
     }
 let content = new Buffer.from(JSON.stringify(info)).toString('base64')
 
-let fake_jwt_token = [prefix, content, suffix].join('.')
+const fake_jwt_token = [prefix, content, suffix].join('.')
+
+
+let date = []
+date.push(intervalDay(30),intervalDay(360),intervalDay(720))
+const finishDate = date[0]
+
+let n = NumberGenerator.genNumber(0, -1)
+let publishDate = []
+
+publishDate = [1,2,3,4,5].map( ()=> {
+    return intervalDay(n.next().value)
+})
+
 
 const note = Mock.mock({
-    "note|1-10": [
+    'note|1-5':[
         {
-            'key|+1': 1,
-            task: '@sentence',
-            rate: '@integer(1,4)'
+            'page|+1': 1,
+            'publishDate': () => publishDate.pop(),
+            "todo|1-5": [
+                {
+                    'key|+1': 1,
+                    task: '@csentence',
+                    rate: '@integer(1,4)'
+                }
+            ]
         }
     ]
 })
-
-let mydate = new Date()
-let delay = day => {
-    let reslut =  mydate.getTime() + day*(24*60*60*1000)
-    return new Date(reslut)
-}
-let date = []
-
-date.push(delay(30),delay(360),delay(720))
-const finishDate = date[0]
 
 const user = Mock.mock({
     "jwt": fake_jwt_token,

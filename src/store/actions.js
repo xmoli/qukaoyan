@@ -18,11 +18,11 @@ export default {
         })
     },
 
-    getNoteTotal ({commit}) {
+    getNoteInfo ({commit}) {
       return new Promise( (resolve, reject) => {
-        axios.get('/v1/note/total')
+        axios.get('/v1/info/note')
           .then( response => {
-            commit('syncPage', response.data)
+            commit('PAGE', response.data.page)
             resolve()
           })
           .catch(err =>{
@@ -32,47 +32,54 @@ export default {
       })
     },
     getNote (context, page_id) {
-      axios.get(`/v1/note/${page_id}`)
-        .then( response => {
-          context.commit('syncNote', response.data)
-        })
-        .catch( err => {
-          let message = `noteid:${page_id}
-            ${err}`
-          context.commit('error', {type: 'noraml', message})
+      context.dispatch('getNoteInfo')
+        .then(()=>{
+          axios.get(`/v1/note/${page_id}`)
+            .then( response => {
+              context.commit('getNote', response.data)
+            })
+            .catch( err => {
+              let message = `noteid:${page_id}
+                ${err}`
+              context.commit('error', {type: 'normal', message})
+            })
         })
     },
-    getNoteToday ({commit}) {
-      axios.get(`/v1/note/today`)
-        .then( response => {
-          commit('syncNote', response.data)
-        })
-        .catch( err => {
-          commit('error', {type: 'noraml', message: err})
+    getNoteToday ({commit, dispatch, state}) {
+      dispatch('getNoteInfo')
+        .then( () => {
+          axios.get(`/v1/note/today`)
+            .then( response => {
+              commit('PAGE_CURRENT', state.noteInfo.page)
+              commit('getNoteToday', response.data)
+            })
+            .catch( err => {
+              commit('error', {type: 'normal', message: err})
+            })
         })
     },
     increment ( { state, commit, dispatch } ) {
-      const pre = state.pager.current
+      const pre = state.noteInfo.current
       commit('increment')
-      const cur = state.pager.current
+      const cur = state.noteInfo.current
       if ((pre !== cur) && (cur !== 0)) {
         dispatch('getNote', cur)
       }
     },
     decrement ( { state, commit, dispatch } ) {
-      const pre = state.pager.current
+      const pre = state.noteInfo.current
       commit('decrement')
-      const cur = state.pager.current
+      const cur = state.noteInfo.current
       if ((pre !== cur) && (cur !== 0)) {
         dispatch('getNote', cur)
       }
     },
     turnToPage ( context, page) {
-      const preCommit = context.state.pager.current
-      context.commit('turn', page)
-      const cur = context.state.pager.current
+      const preCommit = context.state.noteInfo.current
+      context.commit('PAGE_CURRENT', page)
+      const cur = context.state.noteInfo.current
       if ((preCommit !== cur) && (cur !== 0)) {
-        context.dispatch('getNote', context.state.pager.current)
+        context.dispatch('getNote', cur)
       }
     },
 
@@ -131,11 +138,11 @@ export default {
     tokenTest ({commit, dispatch}) {
       axios.get('/v1/jwt/alive')
         .then( response => {
-            commit('auth', {authrized: response.data.token})
+            commit('auth', response.data.token)
         })
         .catch( err => {
           commit('error', {type: 'authError', message: err})
-          commit('auth', {authorized: false})
+          commit('auth', false)
           dispatch('loginLocal')
         })
     }
