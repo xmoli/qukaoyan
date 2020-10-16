@@ -10,7 +10,6 @@
                         placeholder="填写任务"
                         :value="item.task"
                         @input="updateTask($event, index)"
-                        @blur="checkBlank(index)"
                         maxlength="80"
                         type="text"
                         :readonly="readonly"
@@ -50,7 +49,7 @@ export default {
             note: state => state.note,
         }),
         readonly () {
-            if (this.page !== this.current) {
+            if (this.page !== Number.parseInt(this.current)) {
                 return 'readonly'
             } else {
                 return false
@@ -63,21 +62,10 @@ export default {
             'getNote'
         ]),
         updateTask(event,index) {
-            this.$store.commit('updateTask',{index, task: event.target.value})
-            try {
-                this.addBlankTask()
-            } catch {
-                console.info('function updateTadk:','cannot add task')
-                return
-            }
+            this.todo[index].task = event.target.value
+            this.addBlankTask()
         },
-        addBlankTask () {
-            if (this.readonly === 'readonly') {
-                return
-            }
-            if (this.todo === undefined) {
-                return
-            }
+        checkBlank (index) {
             if (this.todo.length === 0) {
                 this.$store.commit('addTask')
             } else {
@@ -88,8 +76,6 @@ export default {
                     this.$store.commit('addTask')
                 }
             }
-        },
-        checkBlank (index) {
             if ((this.todo[index].task === '') && (this.todo.length > 1)) {
                 this.$store.commit('removeTask', index)
             }
@@ -99,7 +85,7 @@ export default {
         },
         save () {
             if (this.needSync) {
-                this.$store.dispatch('saveNoteToday', this.todos)
+                this.$store.dispatch('saveNoteToday', this.todo)
             }
         },
         autoSave (second) {
@@ -114,23 +100,19 @@ export default {
         this.todo = this.note[this.current - 1].todo
     },
     beforeRouteUpdate (to, from, next) {
+        this.save()
         switch (to.params.page) {
             case 'today':
                 this.todo = this.note[this.page - 1].todo
                 break
             default :
                 this.todo = this.note[this.$route.params.page*1 - 1].todo
+                break
         }
         next()
     },
     mounted () {
         this.autoSave(5)//5秒自动保存
-        try {
-            this.addBlankTask()
-        } catch (err){
-            console.info(err)
-            return
-        }
     },
     destroyed () {
         removeEventListener('beforeunload', this.save)

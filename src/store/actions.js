@@ -3,11 +3,12 @@ import axios from '@/axios'
 import StorageToken from '@/util/StorageToken'
 
 export default {
-    saveNoteToday (context, note) {
+    saveNoteToday (context, todo) {
       context.commit('loading', true)
-      axios.put('/v1/note/today', note)
+      axios.put('/v1/note/today', todo)
         .then( response => {
           if (response.status === 200) {
+            context.commit('getNoteToday', todo)
             context.commit('syncFlag', false)
             context.commit('loading', false)
           }
@@ -36,7 +37,7 @@ export default {
         .then(()=>{
           axios.get(`/v1/note/${page}`)
             .then( response => {
-              context.commit('getNote', response.data)
+              context.commit('getNote', response.data.note)
             })
             .catch( err => {
               let message = `page: ${page}
@@ -51,7 +52,7 @@ export default {
           axios.get(`/v1/note/today`)
             .then( response => {
               commit('PAGE_CURRENT', state.noteInfo.page)
-              commit('getNoteToday', response.data)
+              commit('getNoteToday', response.data.todo)
             })
             .catch( err => {
               commit('error', {type: 'normal', message: err})

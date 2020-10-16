@@ -19,38 +19,20 @@ export default {
         state.noteInfo.current ++
       }
     },
-    addTask (state) {
-      state.needSync = true
-      if (state.note.length > 0) {
-        const newTask = { task: null, rate: 0, key: new Date().getTime()}
-        let i = state.noteInfo.current
-        state.note[i - 1].todo.push(newTask)
-      }
-    },
-    removeTask (state, index) {
-      state.needSync = true
-      if (state.note.length > 0) {
-        state.note[state.note.length - 1].splice(index, 1)
-      }
-    },
-    updateTask (state, {index, task}) {
-      state.needSync = true
-      if (state.note.length > 0) {
-        state.note[state.note.length - 1][index].task = task
-      }
-    },
     updateRate (state, {index, rate}) {
       if (state.todos[index].task) {
         state.needSync = true
       }
       state.todos[index].rate = rate
     },
-    getNoteToday (state, data) {
-      state.note.pop()
-      state.note.push(data.note)
+    getNoteToday (state, todo) {
+      let index = state.noteInfo.page - 1
+      if (index >= 0) {
+        state.note.splice(index, 1, {todo})
+      }
     },
-    getNote (state, data) {
-      state.note.splice(state.noteInfo.current - 1,1, data.note)
+    getNote (state, note) {
+      state.note.splice(state.noteInfo.current - 1,1, note)
     },
     noteInfo (state, {page}) {
       state.noteInfo.page = page

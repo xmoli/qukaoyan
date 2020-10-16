@@ -28,7 +28,7 @@ publishDate = [1,2,3,4,5].map( ()=> {
 
 
 const note = Mock.mock({
-    'note|1-5':[
+    'note|5-8':[
         {
             'page|+1': 1,
             'publishDate': () => publishDate.pop(),

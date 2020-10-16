@@ -1,12 +1,18 @@
 <template>
     <ul class="nav">
-        <router-link tag="li" to="/todo-list/current">计划表</router-link>
+        <router-link tag="li" :to="'/todo-list/' + current">计划表</router-link>
         <router-link tag="li" to="/user">用户</router-link>
         <router-link tag="li" to="/about">关于</router-link>
     </ul>
 </template>
 <script>
-
+export default {
+    computed: {
+        current () {
+            return this.$store.state.noteInfo.current
+        }
+    }
+}
 </script>
 
 <style>
