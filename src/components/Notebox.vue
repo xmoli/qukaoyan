@@ -4,12 +4,16 @@
         <transition-group name="scale-fade" tag="table" class="notebox" v-if="todo">
             <tr class="notebox-item"
                 v-for="(item,index) in todo" :key="item.key"
+                @mouseover="handleItemHover(index)"
+                @mouseout="handleItemOut"
             >
                 <td>
                     <input class="task"
                         placeholder="填写任务"
                         :value="item.task"
                         @input="updateTask($event, index)"
+                        @focus="handleInputFocus(index)"
+                        @blur="handleInputBlur"
                         maxlength="80"
                         type="text"
                         :readonly="readonly"
@@ -17,6 +21,14 @@
                 </td>
                 <td>
                     <rate-plate :value="item.rate" @input="updateRate($event, index)"/>
+                </td>
+                <td>
+                    <font-awesome-icon v-if="times(index)" 
+                        tabindex="0"
+                        class="toolIcon" icon="times"
+                        @click="removeTask(index)"
+                    />
+                    <div v-else class="toolIcon"></div>
                 </td>
             </tr>
         </transition-group>
@@ -38,7 +50,10 @@ export default {
     },
     data () {
         return {
-            todo: []
+            todo: [],
+            check: false,
+            focus: -1,
+            hover: -1
         }
     },
     computed: {
@@ -61,27 +76,44 @@ export default {
             'getNoteToday',
             'getNote'
         ]),
+        handleInputFocus (index) {
+            if (this.readonly !== true) {
+                this.focus = index
+            }
+        },
+        handleInputBlur () {
+            if (this.readonly !== true) {
+                this.focus = -1
+            }
+        },
+        handleItemHover (index) {
+            if (this.readonly !== true) {
+                this.hover = index
+            }
+        },
+        handleItemOut () {
+            if (this.readonly !== true) {
+                this.hover = -1
+            }
+        },
+        times (index) {
+            if (this.readonly !== true) {
+                return (this.focus === index) || 
+                        (this.hover === index)
+            }
+        },
         updateTask(event,index) {
             this.todo[index].task = event.target.value
-            this.addBlankTask()
         },
-        checkBlank (index) {
-            if (this.todo.length === 0) {
-                this.$store.commit('addTask')
-            } else {
-                let last = this.todo[this.todo.length-1]
-                if ((last === undefined) ||
-                    (last.task.length > 0)
-                ) {
-                    this.$store.commit('addTask')
-                }
-            }
-            if ((this.todo[index].task === '') && (this.todo.length > 1)) {
-                this.$store.commit('removeTask', index)
-            }
+        addTask () {
+            let task = {task: '',rate: 0}
+            this.todo.push(task)
+        },
+        removeTask (index) {
+            this.todo.splice(index, 1)
         },
         updateRate(event, index) {
-            this.$store.commit('updateRate', {index, rate: event.rate})
+            this.todo[index].rate = event.rate
         },
         save () {
             if (this.needSync) {
@@ -134,7 +166,6 @@ export default {
 .notebox-wrapper> div 
     margin 1em 0
 table.notebox
-    table-layout: fixed;
     border-spacing 0 1em
     width 100%
     td 
@@ -164,8 +195,10 @@ table.notebox tr td:last-child
         cursor pointer
         color purple
         transition all .4s ease-in
-
-
+.toolIcon {
+    width: 1em;
+    height: 1em;
+}
 @media screen and (max-width: 900px) {
 .notebox-wrapper {
     width: 100vw;
