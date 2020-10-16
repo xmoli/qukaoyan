@@ -1,13 +1,15 @@
 import Vue from 'vue'
-import Vuex, { createLogger } from 'vuex'
 import actions from './actions'
 import mutations from './mutations'
+import Vuex, { createLogger } from 'vuex'
+
+const debug = process.env.NODE_ENV !== 'production'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   strict: (process.env.NODE_ENV !== 'production'),
-  plugins: [createLogger()],
+  plugins: debug ? [createLogger()] : [],
   state: {
     user: {},
     event: {
