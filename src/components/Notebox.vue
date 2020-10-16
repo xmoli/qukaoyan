@@ -26,11 +26,10 @@
                     <div class="toolIcon"
                         @click="removeTask(index)"
                         v-if="times(index)"
-                    >
-                    <font-awesome-icon  
                         tabindex="0"
-                        class="toolIcon" icon="times"
-                    />
+                        @submit="removeTask(index)"
+                    >
+                    <font-awesome-icon  icon="times"/>
                     </div>
                     <div v-else class="toolIcon"></div>
                 </td>
