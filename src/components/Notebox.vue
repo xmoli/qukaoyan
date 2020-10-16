@@ -3,7 +3,7 @@
         <counter />
         <transition-group name="scale-fade" tag="table" class="notebox" v-if="todo">
             <tr class="notebox-item"
-                v-for="(item,index) in todo" :key="item.key"
+                v-for="(item,index) in todo" :key="item.key.toString()"
                 @mouseover="handleItemHover(index)"
                 @mouseout="handleItemOut"
             >
@@ -23,11 +23,15 @@
                     <rate-plate :value="item.rate" @input="updateRate($event, index)"/>
                 </td>
                 <td>
-                    <font-awesome-icon v-if="times(index)" 
+                    <div class="toolIcon"
+                        @click="removeTask(index)"
+                        v-if="times(index)"
+                    >
+                    <font-awesome-icon  
                         tabindex="0"
                         class="toolIcon" icon="times"
-                        @click="removeTask(index)"
                     />
+                    </div>
                     <div v-else class="toolIcon"></div>
                 </td>
             </tr>
@@ -104,16 +108,31 @@ export default {
         },
         updateTask(event,index) {
             this.todo[index].task = event.target.value
+            this.autoAddTask()
         },
-        addTask () {
-            let task = {task: '',rate: 0}
-            this.todo.push(task)
+        autoAddTask () {
+            if (this.readonly === false) {
+                let task = {key: new Date() ,task: '',rate: 0}
+                if ( this.todo.length === 0) {
+                    console.log('blank, new task')
+                    this.todo.push(task)
+                }
+                if (this.todo[this.todo.length -1].task !== '') {
+                    console.log('new task')
+                    this.todo.push(task)
+                }
+            }
         },
         removeTask (index) {
+            let  i = this.todo.length - 1
+            if (i === index) {
+                return
+            }
             this.todo.splice(index, 1)
         },
         updateRate(event, index) {
             this.todo[index].rate = event.rate
+            this.autoAddTask()
         },
         save () {
             if (this.needSync) {
@@ -129,16 +148,17 @@ export default {
         addEventListener('unload', this.save)
     },
     created () {
-        this.todo = this.note[this.current - 1].todo
+        this.todo = this.note[this.current - 1].todo.slice()
+        this.autoAddTask()
     },
     beforeRouteUpdate (to, from, next) {
         this.save()
         switch (to.params.page) {
             case 'today':
-                this.todo = this.note[this.page - 1].todo
+                this.todo = this.note[this.page - 1].todo.slice()
                 break
             default :
-                this.todo = this.note[this.$route.params.page*1 - 1].todo
+                this.todo = this.note[this.$route.params.page*1 - 1].todo.slice()
                 break
         }
         next()
@@ -198,6 +218,7 @@ table.notebox tr td:last-child
 .toolIcon {
     width: 1em;
     height: 1em;
+    border: 2px solid transparent;
 }
 @media screen and (max-width: 900px) {
 .notebox-wrapper {
