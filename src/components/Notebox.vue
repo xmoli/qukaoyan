@@ -37,6 +37,11 @@ export default {
         counter: () => import('./Countdown'),
         'rate-plate': () => import('./RatePlate')
     },
+    data () {
+        return {
+            todo: []
+        }
+    },
     computed: {
         ...mapState({
             needSync: (state) => state.needSync,
@@ -44,13 +49,6 @@ export default {
             page: state => state.noteInfo.page,
             note: state => state.note,
         }),
-        todo () {
-            try {
-                return this.$store.note[this.current -1].todo
-            } catch {
-                return []
-            }
-        },
         readonly () {
             if (this.page !== this.current) {
                 return 'readonly'
@@ -111,6 +109,19 @@ export default {
     beforeCreate () {
         addEventListener('beforunload', this.save)
         addEventListener('unload', this.save)
+    },
+    created () {
+        this.todo = this.note[this.current - 1].todo
+    },
+    beforeRouteUpdate (to, from, next) {
+        switch (to.params.page) {
+            case 'today':
+                this.todo = this.note[this.page - 1].todo
+                break
+            default :
+                this.todo = this.note[this.$route.params.page*1 - 1].todo
+        }
+        next()
     },
     mounted () {
         this.autoSave(5)//5秒自动保存

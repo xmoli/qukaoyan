@@ -37,7 +37,11 @@ export default {
         break
       default:
         this.$store.dispatch('getNote', to.params.page)
-        this.$store.commit('PAGE_CURRENT', to.params.page)
+        if ((0 < to.params.page) && (to.params.page <= this.page)) {
+          this.$store.commit('PAGE_CURRENT', to.params.page)
+        } else {
+          this.$router.push({name: 'Home', params: {page: from.params.page}})
+        }
         break
     }
     next()

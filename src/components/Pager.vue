@@ -2,7 +2,7 @@
     <div class="pager">
         <div class="icon left"
              @click="decrement"
-             :class="{disable: !hasPre()}"
+             :class="{disable: !hasPre}"
         >
             <font-awesome-icon icon="backward"/>
         </div>
@@ -22,11 +22,12 @@
             @close="handleCloseSelect"
             @select="handleSelect"
         />
+        /{{maxPage}}
         页
         </form>
         <div class="icon right"
             @click="increment"
-            :class="{disable: !hasNext()}"
+            :class="{disable: !hasNext}"
         >
             <font-awesome-icon icon="forward"/>
         </div>
@@ -43,7 +44,6 @@ export default {
     data () {
         return {
             anchorSelect: {event: null, open: false},
-            options: 0
         }
     },
     computed: {
@@ -62,23 +62,8 @@ export default {
                 }
             },
             set (val) {
-                console.log('set current', val)
                 this.$router.push({name: 'Home', params: {page: val}})
             }
-        }
-    },
-    methods: {
-        turnToPage (page) {
-            this.$store.commit('PAGE_CURRENT', page)
-            this.$router.push({name: 'Home', params: {page}})
-        },
-        increment () {
-            this.$store.commit('increment')
-            this.$router.push({name: 'Home', params: {page: this.current +1}})
-        },
-        decrement () {
-            this.$store.commit('decrement')
-            this.$router.push({name: 'Home', params: {page: this.current -1}})
         },
         hasPre() {
             let preIndex = this.current - 1
@@ -94,6 +79,28 @@ export default {
                 return true
             } else {
                 return false
+            }
+        }
+    },
+    methods: {
+        turnToPage (page) {
+            if ((this.maxPage >= page) && (page >= 0)) {
+                this.$store.commit('PAGE_CURRENT', page)
+                this.$router.push({name: 'Home', params: {page}})
+            }
+        },
+        increment () {
+            if (this.current <= this.maxPage) {
+                this.$store.commit('increment')
+                this.$router.push({name: 'Home', 
+                    params: {page: Number.parseInt(this.current) +1}})
+            }
+        },
+        decrement () {
+            if (this.current >= 1) {
+                this.$store.commit('decrement')
+                this.$router.push({name: 'Home', 
+                    params: {page: Number.parseInt(this.current) -1}})
             }
         },
         togglePageList (event) {
