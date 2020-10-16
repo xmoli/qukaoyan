@@ -1,7 +1,7 @@
 <template>
     <div class="notebox-wrapper">
         <counter />
-        <transition-group name="scale-fade" tag="table" class="notebox">
+        <transition-group name="scale-fade" tag="table" class="notebox" v-if="todo">
             <tr class="notebox-item"
                 v-for="(item,index) in todo" :key="item.key"
             >
@@ -13,6 +13,7 @@
                         @blur="checkBlank(index)"
                         maxlength="80"
                         type="text"
+                        :readonly="readonly"
                     />
                 </td>
                 <td>
@@ -20,6 +21,9 @@
                 </td>
             </tr>
         </transition-group>
+        <transition name="scale-fade" v-else>
+            loading
+        </transition>
         <pager/>
     </div>
 </template>
@@ -36,14 +40,24 @@ export default {
     computed: {
         ...mapState({
             needSync: (state) => state.needSync,
-            todo: (state) => {
-                try {
-                    return state.note[this.$store.noteInfo.current].todo
-                }catch {
-                    return
-                }
-            }
+            current: (state) => state.noteInfo.current,
+            page: state => state.noteInfo.page,
+            note: state => state.note,
         }),
+        todo () {
+            try {
+                return this.$store.note[this.current -1].todo
+            } catch {
+                return []
+            }
+        },
+        readonly () {
+            if (this.page !== this.current) {
+                return 'readonly'
+            } else {
+                return false
+            }
+        }
     },
     methods: {
         ...mapActions([
@@ -55,23 +69,30 @@ export default {
             try {
                 this.addBlankTask()
             } catch {
+                console.info('function updateTadk:','cannot add task')
                 return
             }
         },
         addBlankTask () {
+            if (this.readonly === 'readonly') {
+                return
+            }
+            if (this.todo === undefined) {
+                return
+            }
             if (this.todo.length === 0) {
                 this.$store.commit('addTask')
             } else {
-                let last = this.todo[this.todos.length-1]
-                if (last.task.length > 0) {
+                let last = this.todo[this.todo.length-1]
+                if ((last === undefined) ||
+                    (last.task.length > 0)
+                ) {
                     this.$store.commit('addTask')
-                } else {
-                    throw `Task have been added`
                 }
             }
         },
         checkBlank (index) {
-            if ((this.todos[index].task === '') && (this.todos.length > 1)) {
+            if ((this.todo[index].task === '') && (this.todo.length > 1)) {
                 this.$store.commit('removeTask', index)
             }
         },
@@ -85,32 +106,20 @@ export default {
         },
         autoSave (second) {
             setInterval(this.save, second*1000)
-        },
-        getPage () {
-            switch (this.$route.params.page) {
-                case 'today':
-                this.getNoteToday()
-                this.$store.commit('PAGE_CURRENT', this.page)
-                break
-                default:
-                this.$store.commit('PAGE_CURRENT', this.$route.params.page)
-                this.getNote(this.$route.params.page)
-                break
-            }
         }
     },
-    created () {
-        this.autoSave(5)//5秒自动保存
-        this.getPage()
-        try {
-            this.addBlanckTask()
-        } catch (err){
-            return
-        }
-    },
-    mounted () {
+    beforeCreate () {
         addEventListener('beforunload', this.save)
         addEventListener('unload', this.save)
+    },
+    mounted () {
+        this.autoSave(5)//5秒自动保存
+        try {
+            this.addBlankTask()
+        } catch (err){
+            console.info(err)
+            return
+        }
     },
     destroyed () {
         removeEventListener('beforeunload', this.save)

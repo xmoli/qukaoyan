@@ -1,13 +1,13 @@
 
 export default {
     PAGE_CURRENT (state, page) {
-      let max = state.noteInfo.page
-      if ((page <= max) && (page > 0)) {
         state.noteInfo.current = page
-      }
     },
     PAGE (state, page) {
       state.noteInfo.page = page
+      if (state.note.length !== page) {
+        state.note = new Array(state.noteInfo.page)
+      }
     },
     decrement (state) {
       if ( 0 < state.noteInfo.current) {
@@ -21,15 +21,11 @@ export default {
     },
     addTask (state) {
       state.needSync = true
-      const task = { task: null, rate: 0, key: new Date().getTime()}
-
-      let offset = 1
-      if (state.note.length === 0) {
-        state.note.push([])
-        offset = 0
-        }
-
-      state.note[offset].push(task)
+      if (state.note.length > 0) {
+        const newTask = { task: null, rate: 0, key: new Date().getTime()}
+        let i = state.noteInfo.current
+        state.note[i - 1].todo.push(newTask)
+      }
     },
     removeTask (state, index) {
       state.needSync = true
@@ -54,9 +50,7 @@ export default {
       state.note.push(data.note)
     },
     getNote (state, data) {
-      if (state.note.length > 0) {
-        state.note.splice(data.page - 1,1, data.note)
-      }
+      state.note.splice(state.noteInfo.current - 1,1, data.note)
     },
     noteInfo (state, {page}) {
       state.noteInfo.page = page

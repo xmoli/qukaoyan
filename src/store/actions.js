@@ -31,15 +31,15 @@ export default {
           })
       })
     },
-    getNote (context, page_id) {
+    getNote (context, page) {
       context.dispatch('getNoteInfo')
         .then(()=>{
-          axios.get(`/v1/note/${page_id}`)
+          axios.get(`/v1/note/${page}`)
             .then( response => {
               context.commit('getNote', response.data)
             })
             .catch( err => {
-              let message = `noteid:${page_id}
+              let message = `page: ${page}
                 ${err}`
               context.commit('error', {type: 'normal', message})
             })
@@ -58,32 +58,6 @@ export default {
             })
         })
     },
-    increment ( { state, commit, dispatch } ) {
-      const pre = state.noteInfo.current
-      commit('increment')
-      const cur = state.noteInfo.current
-      if ((pre !== cur) && (cur !== 0)) {
-        dispatch('getNote', cur)
-      }
-    },
-    decrement ( { state, commit, dispatch } ) {
-      const pre = state.noteInfo.current
-      commit('decrement')
-      const cur = state.noteInfo.current
-      if ((pre !== cur) && (cur !== 0)) {
-        dispatch('getNote', cur)
-      }
-    },
-    turnToPage ( context, page) {
-      const preCommit = context.state.noteInfo.current
-      context.commit('PAGE_CURRENT', page)
-      const cur = context.state.noteInfo.current
-      if ((preCommit !== cur) && (cur !== 0)) {
-        context.dispatch('getNote', cur)
-      }
-    },
-
-  
     login (context, user) {
       axios.post('/v1/user/login',user)
         .then( response => {
@@ -123,7 +97,7 @@ export default {
           }
         })
         .catch( err => {
-          context.commit('error', {type: 'noraml', message: err})
+          context.commit('error', {type: 'normal', message: err})
         })
     },
     getUserEvent (context) {
@@ -132,7 +106,7 @@ export default {
           context.commit('userEvent', response.data)
         })
         .catch( err => {
-          context.commit('error', {type: 'noraml', message: err})
+          context.commit('error', {type: 'normal', message: err})
         })
     },
     tokenTest ({commit, dispatch}) {

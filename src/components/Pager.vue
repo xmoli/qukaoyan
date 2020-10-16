@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import {  mapState, mapActions } from 'vuex'
+import {  mapState } from 'vuex'
 
 export default {
     components: {
@@ -53,19 +53,33 @@ export default {
         }),
         current: {
             get () {
-                return this.currentPage
+                switch (this.$route.params.page) {
+                    case undefined:
+                    case 'today':
+                        return this.maxPage
+                    default:
+                        return this.$route.params.page
+                }
             },
             set (val) {
-                this.$store.dispatch('turntoPage', val)
+                console.log('set current', val)
+                this.$router.push({name: 'Home', params: {page: val}})
             }
         }
     },
     methods: {
-        ...mapActions([
-            'increment',
-            'decrement',
-            'turnToPage'
-        ]),
+        turnToPage (page) {
+            this.$store.commit('PAGE_CURRENT', page)
+            this.$router.push({name: 'Home', params: {page}})
+        },
+        increment () {
+            this.$store.commit('increment')
+            this.$router.push({name: 'Home', params: {page: this.current +1}})
+        },
+        decrement () {
+            this.$store.commit('decrement')
+            this.$router.push({name: 'Home', params: {page: this.current -1}})
+        },
         hasPre() {
             let preIndex = this.current - 1
             if (preIndex > 0 ) {
@@ -96,6 +110,10 @@ export default {
             this.handleCloseSelect()
         }
     },
+    beforeRouteUpdate(to, from, next) {
+        this.current = to.params.page
+        next()
+    }
 }
 </script>
 
