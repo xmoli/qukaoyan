@@ -77,22 +77,22 @@ export default {
             'getNote'
         ]),
         handleInputFocus (index) {
-            if (this.readonly !== true) {
+            if (this.readonly === false) {
                 this.focus = index
             }
         },
         handleInputBlur () {
-            if (this.readonly !== true) {
+            if (this.readonly === false) {
                 this.focus = -1
             }
         },
         handleItemHover (index) {
-            if (this.readonly !== true) {
+            if (this.readonly === false) {
                 this.hover = index
             }
         },
         handleItemOut () {
-            if (this.readonly !== true) {
+            if (this.readonly === false) {
                 this.hover = -1
             }
         },
