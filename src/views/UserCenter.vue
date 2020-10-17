@@ -1,8 +1,8 @@
 <template>
 <div class="user-center">
-    <user-sync/>
     <user-info/>
     <user-select/>
+    <user-sync/>
 </div>
 </template>
 
@@ -12,7 +12,10 @@ export default {
         'user-sync': () => import('@/components/UserSync'),
         'user-info': () => import('@/components/UserInfo'),
         'user-select': () => import('@/components/UserSelect')
-    }
+    },
+    created () {
+        this.$store.dispatch('getUserInfo')
+    },
 }
 </script>
 
@@ -28,6 +31,7 @@ export default {
     margin: 1em 0;
     border: 1px solid  #c1c4c8;
     border-radius: 4px;
+    overflow: hidden;
 }
 
 @media screen and (max-width: 900px) {

@@ -39,6 +39,7 @@ export default {
 <style scoped>
 .progress {
     position: relative;
+    z-index: 2;
     overflow: hidden;
     display: flex;
     justify-content: space-around;

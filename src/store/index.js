@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import actions from './actions'
 import mutations from './mutations'
+import user from './modules/user'
+
 import Vuex, { createLogger } from 'vuex'
 
 const debug = process.env.NODE_ENV !== 'production'
@@ -11,7 +13,7 @@ export default new Vuex.Store({
   strict: (process.env.NODE_ENV !== 'production'),
   plugins: debug ? [createLogger()] : [],
   state: {
-    user: {},
+    auth: {},
     event: {
       prefix: '还有',
       suffix: '天',
@@ -38,5 +40,6 @@ export default new Vuex.Store({
   mutations,
   actions,
   modules: {
+    user
   }
 })

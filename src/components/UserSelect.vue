@@ -24,6 +24,9 @@ export default {
                 {name: '小红',status: true}
             ]
         }
+    },
+    created () {
+        this.userList
     }
 }
 </script>
@@ -36,6 +39,7 @@ export default {
 }
 
 .user-select>dd {
+    background: white;
     text-indent: 1em;
     border-top: 1px solid #c1c4c8;
     padding: 1em

@@ -59,16 +59,6 @@ export default {
             })
         })
     },
-    login (context, user) {
-      axios.post('/v1/user/login',user)
-        .then( response => {
-          context.commit('auth')
-          new StorageToken().set(response.data.token)
-        })
-        .catch(err => {
-          context.commit('error', {type: 'authorizedError', message: err})
-        })
-    },
     loginLocal ({commit}) {
       axios.get('/v1/user/login/local')
         .then( response => {
@@ -79,26 +69,6 @@ export default {
         })
         .catch( err => {
           commit('error', {type: 'authError', message: err})
-        })
-    },
-    getUserInfo (context) {
-      axios.get('/v1/user/info')
-        .then( response => {
-          context.commit('user', response.data.user)
-        })
-        .catch( err => {
-          context.commit('error', {type: 'normal', message: err})
-        })
-    },
-    updateUserInfo (context, user) {
-      axios.put('/v1/user/info',user)
-        .then( response => {
-          if (response.ok) {
-            context.commit('user', user)
-          }
-        })
-        .catch( err => {
-          context.commit('error', {type: 'normal', message: err})
         })
     },
     getUserEvent (context) {

@@ -4,8 +4,8 @@
         <img v-if="user.avatar" :src="user.avatar" />
         <font-awesome-icon v-else icon="user" />
     </dt>
-    <dd><level-bar :point="user.point"/></dd>
     <dd>{{user.name}}</dd>
+    <dd><level-bar :point="user.point"/></dd>
 </dl>
 </template>
 <script>
@@ -13,12 +13,9 @@ export default {
     components: {
         'level-bar': () => import('@/components/Levelbar')
     },
-    data () {
-        return {
-            user: {
-                point: 200,
-                name: '小红果'
-            }
+    computed: {
+        user () {
+            return this.$store.state.user
         }
     }
 }
@@ -29,7 +26,18 @@ export default {
     padding: 8px;
     font-size: 3em;
 }
+.avatar img {
+    width: 1em;
+    height: 1em;
+    border-radius: 50%;
+}
 .user-info dt:hover {
     cursor: pointer;
+}
+.user-info {
+    background: white;
+}
+.user-info dd {
+    padding: 8px;
 }
 </style>

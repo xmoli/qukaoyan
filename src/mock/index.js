@@ -11,8 +11,9 @@ mock.onGet('/v1/user/login/local').reply(200, {token: data.jwt})
 
 mock.onGet('/v1/user/info').reply(200, {
         user: {
+            avatar: data.user.avatar,
             name: data.user.name,
-            level: Math.floor(Math.random()*2000)
+            point: Math.floor(Math.random()*3000)
         }
     })
 mock.onGet('/v1/user/event').reply(200, data.user.event)

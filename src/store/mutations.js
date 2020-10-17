@@ -44,9 +44,9 @@ export default {
     },
     auth (state, authorized) {
       if (authorized == true) {
-        state.user.authorized = true
+        state.auth.authorized = true
       } else {
-        state.user.authorized = false
+        state.auth.authorized = false
       }
     },
     selectDate (state, date) {
