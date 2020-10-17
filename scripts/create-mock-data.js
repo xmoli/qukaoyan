@@ -32,7 +32,7 @@ const note = Mock.mock({
         {
             'page|+1': 1,
             'publishDate': () => publishDate.pop(),
-            "todo|1-5": [
+            "todo|3-7": [
                 {
                     'key|+1': 1,
                     task: '@csentence',
@@ -47,7 +47,7 @@ const user = Mock.mock({
     "jwt": fake_jwt_token,
     'user': {
             "id": new Date().getTime(),
-            avatar: '@image(50x50, #2a2aa0)',
+            avatar: '@image(50x50)',
             name: '@cname',
             event: {
                 name: 'null',

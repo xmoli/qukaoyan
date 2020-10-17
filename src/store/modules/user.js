@@ -4,11 +4,16 @@ import StorageToken from '@/util/StorageToken'
 
 export default {
     state: () => ({
-        userInfo: {}
+        userInfo: {},
+        userInfoLocal: {}
     }),
     mutations: {
-        USER_INFO$SET (state, userInfo) {
-            state.userInfo = userInfo
+        USER_INFO$SET (state, info) {
+            state.userInfo = info
+        },
+        USER_INFO_LOCAL$GET (state) {
+            //保证userInfo 的独立性
+            state.userInfoLocal = Object.assign({}, state.userInfo)
         }
     },
     actions: {
@@ -25,22 +30,27 @@ export default {
         getUserInfo (context) {
             axios.get('/v1/user/info')
                 .then( response => {
-                    context.commit('userInfo', response.data.user)
+                    context.commit('USER_INFO$SET', response.data.user)
+                    context.commit('USER_INFO_LOCAL$GET')
                 })
                     .catch( err => {
                     context.commit('error', {type: 'normal', message: err})
                 })
         },
-        updateUserInfo (context, user) {
-            axios.put('/v1/user/info',user)
-                .then( response => {
-                    if (response.ok) {
-                        context.commit('userInfo', user)
-                    }
-                })
-                .catch( err => {
-                    context.commit('error', {type: 'normal', message: err})
-                })
+        updateUserInfo (context) {
+            return new Promise( (resolve, reject) => {
+                axios.put('/v1/user/info', context.state.userInfoLocal)
+                    .then( response => {
+                        if (response.status === 200) {
+                            context.commit('USER_INFO$SET', context.state.userInfoLocal)
+                            resolve()
+                        }
+                    })
+                    .catch( err => {
+                        context.commit('error', {type: 'normal', message: err})
+                        reject()
+                    })
+            })
         },
     }
 }

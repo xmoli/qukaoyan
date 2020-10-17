@@ -2,7 +2,7 @@
     <div class="pager">
         <div class="icon left"
              @click="decrement"
-             :class="{disable: !hasPre}"
+             :class="{disable: !hasPre()}"
         >
             <font-awesome-icon icon="backward"/>
         </div>
@@ -22,12 +22,12 @@
             @close="handleCloseSelect"
             @select="handleSelect"
         />
-        /{{maxPage}}
+        / {{maxPage}}
         页
         </form>
         <div class="icon right"
-            @click="increment"
-            :class="{disable: !hasNext}"
+            @click="increment()"
+            :class="{disable: !hasNext()}"
         >
             <font-awesome-icon icon="forward"/>
         </div>
@@ -58,49 +58,53 @@ export default {
                     case 'today':
                         return this.maxPage
                     default:
-                        return this.$route.params.page
+                        return Number.parseInt(this.$route.params.page)
                 }
             },
             set (val) {
+                if ((val < 1) && (val> this.maxPage)) {
+                    return
+                }
                 this.$router.push({name: 'Home', params: {page: val}})
             }
         },
+    },
+    methods: {
         hasPre() {
-            let preIndex = this.current - 1
-            if (preIndex > 0 ) {
-                return true
-            } else {
+            if (this.current <= 1) {
                 return false
+            } else {
+                return true
             }
         },
         hasNext() {
-            let nextIndex = this.current + 1
-            if (this.maxPage >= nextIndex) {
-                return true
-            } else {
+            if (this.current >= this.maxPage) {
                 return false
+            } else {
+                return true
             }
-        }
-    },
-    methods: {
+        },
         turnToPage (page) {
-            if ((this.maxPage >= page) && (page >= 0)) {
+            if (page === this.current) {
+                return
+            }
+            if ((this.maxPage >= page) && (page > 0)) {
                 this.$store.commit('PAGE_CURRENT', page)
                 this.$router.push({name: 'Home', params: {page}})
             }
         },
         increment () {
-            if (this.current <= this.maxPage) {
+            if ((this.current+1) <= this.maxPage) {
                 this.$store.commit('increment')
                 this.$router.push({name: 'Home', 
-                    params: {page: Number.parseInt(this.current) +1}})
+                    params: {page: this.current + 1}})
             }
         },
         decrement () {
-            if (this.current >= 1) {
+            if (this.current > 1) {
                 this.$store.commit('decrement')
                 this.$router.push({name: 'Home', 
-                    params: {page: Number.parseInt(this.current) -1}})
+                    params: {page: this.current - 1}})
             }
         },
         togglePageList (event) {
@@ -118,7 +122,7 @@ export default {
         }
     },
     beforeRouteUpdate(to, from, next) {
-        this.current = to.params.page
+        this.current = Number.parseInt(to.params.page)
         next()
     }
 }

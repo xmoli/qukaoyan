@@ -2,20 +2,22 @@
 <dl class="user-select">
     <dt>用户切换</dt>
     <dd v-for="user in userList" :key="user.name">
-        <dl class="user-status detail">
+        <dl class="user-status detail" >
             <dt v-if="user.avatar"><img :src="user.avatar" /></dt>
             <dt v-else><font-awesome-icon icon="user"/></dt>
             <dd>{{user.name}}</dd>
             <dd class="online"><font-awesome-icon icon="check" v-if="user.status"/></dd>
         </dl>
     </dd>
-    <dd>
+    <dd @click="login">
         <font-awesome-icon icon="user-plus"/>
     </dd>
 </dl>
 </template>
 
 <script>
+import UserStorage from '@/util/StorageToken'
+
 export default {
     data () {
         return {
@@ -25,8 +27,13 @@ export default {
             ]
         }
     },
+    methods: {
+        login () {
+            console.log('login feature is developing')
+        }
+    },
     created () {
-        this.userList
+        this.userList = new UserStorage().getList()
     }
 }
 </script>

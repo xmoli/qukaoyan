@@ -9,7 +9,12 @@
 export default {
     computed: {
         current () {
-            return this.$store.state.noteInfo.current
+            let cur = this.$store.state.noteInfo.current
+            if (cur === 0) {
+                return 'today'
+            } else {
+                return cur
+            }
         }
     }
 }

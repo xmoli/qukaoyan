@@ -4,6 +4,7 @@ import data from './data.json'
 const mock =  new MockAdapter(axios)
 
 const noteUrl = /\/v1\/note\/\d/
+let randomNote = (max) => (data.user.note[Math.ceil(Math.random()*max)])
 
 mock.onGet('/v1/jwt/alive').reply(200, {token: true})
 
@@ -24,11 +25,11 @@ mock.onPut('/v1/user/info').reply(200)
 
 mock.onDelete('/v1/user/destruction').reply(200)
 
-mock.onGet(noteUrl).reply(200, {note: data.user.note[Math.ceil(Math.random()*3)]})
+mock.onGet(noteUrl).reply(200, {note: randomNote(5)})
 
 mock.onGet('/v1/info/note').reply(200, {page: data.user.note.length})
 mock.onPost('/v1/add/note/').reply(200)
-mock.onGet('/v1/note/today').reply(200,{todo: data.user.note[Math.ceil(Math.random()*5)].todo})
+mock.onGet('/v1/note/today').reply(200,{todo: data.user.note[Math.ceil(Math.random()*4)].todo})
 mock.onPut('/v1/note/today').reply(200)
 mock.onAny().reply(500)
 

@@ -113,11 +113,10 @@ export default {
             if (this.readonly === false) {
                 let task = {key: new Date() ,task: '',rate: 0}
                 if ( this.todo.length === 0) {
-                    console.log('blank, new task')
                     this.todo.push(task)
+                    return
                 }
                 if (this.todo[this.todo.length -1].task !== '') {
-                    console.log('new task')
                     this.todo.push(task)
                 }
             }
@@ -152,12 +151,13 @@ export default {
     },
     beforeRouteUpdate (to, from, next) {
         this.save()
+        console.log('routeupdate')
         switch (to.params.page) {
             case 'today':
-                this.todo = this.note[this.page - 1].todo.slice()
+                this.todo = Object.assign([], this.note[this.page - 1].todo)
                 break
             default :
-                this.todo = this.note[this.$route.params.page*1 - 1].todo.slice()
+                this.todo = Object.assign([], this.note[this.$route.params.page*1 - 1].todo)
                 break
         }
         next()

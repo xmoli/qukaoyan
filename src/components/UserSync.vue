@@ -10,6 +10,9 @@ export default {
     methods: {
         syncUserInfo () {
             this.$store.dispatch('updateUserInfo')
+                .then( () => {
+                    this.$store.commit('USER_INFO_LOCAL$GET')
+                })
         }
     }
 }
