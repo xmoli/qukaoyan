@@ -3,19 +3,19 @@ import axios from '@/axios'
 import StorageToken from '@/util/StorageToken'
 
 export default {
-    saveNoteToday (context, todo) {
-      context.commit('loading', true)
-      axios.put('/v1/note/today', todo)
+    saveNoteToday ({state, commit}) {
+      commit('loading', true)
+      axios.put('/v1/note/today', state.todo)
         .then( response => {
           if (response.status === 200) {
-            context.commit('getNoteToday', todo)
-            context.commit('syncFlag', false)
-            context.commit('loading', false)
+            commit('TODO_SAVE')
+            commit('syncFlag', false)
+            commit('loading', false)
           }
         })
         .catch( err => {
-          context.commit('syncFlag', false)
-          context.commit('error',{type:'syncError', message: err})
+          commit('syncFlag', false)
+          commit('error',{type:'syncError', message: err})
         })
     },
 
@@ -33,31 +33,39 @@ export default {
       })
     },
     getNote (context, page) {
-      context.dispatch('getNoteInfo')
-        .then(()=>{
-          axios.get(`/v1/note/${page}`)
-            .then( response => {
-              context.commit('getNote', response.data.note)
-            })
-            .catch( err => {
-              let message = `page: ${page}
-                ${err}`
-              context.commit('error', {type: 'normal', message})
-            })
-        })
+      return new Promise( (resolve, reject) => {
+        context.dispatch('getNoteInfo')
+          .then(()=>{
+            axios.get(`/v1/note/${page}`)
+              .then( response => {
+                context.commit('getNote', response.data.note)
+                resolve()
+              })
+              .catch( err => {
+                let message = `page: ${page}
+                  ${err}`
+                context.commit('error', {type: 'normal', message})
+                reject(err)
+              })
+          })
+      })
     },
     getNoteToday ({commit, dispatch, state}) {
-      dispatch('getNoteInfo')
-        .then( () => {
-          axios.get(`/v1/note/today`)
-            .then( response => {
-              commit('PAGE_CURRENT', state.noteInfo.page)
-              commit('getNoteToday', response.data.todo)
-            })
-            .catch( err => {
-              commit('error', {type: 'normal', message: err})
-            })
-        })
+      return new Promise( (resolve, reject) => {
+        dispatch('getNoteInfo')
+          .then( () => {
+            axios.get(`/v1/note/today`)
+              .then( response => {
+                commit('PAGE_CURRENT', state.noteInfo.page)
+                commit('getNoteToday', response.data.todo)
+                resolve()
+              })
+              .catch( err => {
+                commit('error', {type: 'normal', message: err})
+                reject(err)
+              })
+          })
+      })
     },
     loginLocal ({commit}) {
       axios.get('/v1/user/login/local')

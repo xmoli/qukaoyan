@@ -12,10 +12,11 @@
             <span class="unit">
                 {{event.suffix}}
             </span>
-            <font-awesome-icon icon="cog"
-                class="toggleBoardIcon"
-                @click.stop="handleToggleBoard"
-            />
+            <span @click.stop="handleToggleBoard">
+                <font-awesome-icon icon="cog"
+                    class="toggleBoardIcon"
+                />
+            </span>
         </div>
         <my-select 
             :anchor="anchorSelect"
@@ -126,11 +127,6 @@ export default {
         font-size 3em
     span
         margin 8px
-
-.toggleBoardIcon {
-    border: 8px solid transparent;
-    border-bottom: none;
-}
 dt {
     text-align: start;
     color: gray;

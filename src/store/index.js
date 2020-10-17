@@ -21,6 +21,8 @@ export default new Vuex.Store({
       finishDate: ''
     },
     note: [],
+    todo: [],//note[current_page_index].todo 的副本
+    blankTask: {task: '', rate:0, key: new Date().getTime()},
     noteInfo: {
       page: 0,
       current: 0

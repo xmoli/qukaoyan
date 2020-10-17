@@ -53,7 +53,6 @@ export default {
     },
     data () {
         return {
-            todo: [],
             check: false,
             focus: -1,
             hover: -1
@@ -65,6 +64,7 @@ export default {
             current: (state) => state.noteInfo.current,
             page: state => state.noteInfo.page,
             note: state => state.note,
+            todo: state => state.todo
         }),
         readonly () {
             if (this.page !== Number.parseInt(this.current)) {
@@ -79,6 +79,9 @@ export default {
             'getNoteToday',
             'getNote'
         ]),
+        /**
+         * 事件标记handler
+         */
         handleInputFocus (index) {
             if (this.readonly === false) {
                 this.focus = index
@@ -99,6 +102,8 @@ export default {
                 this.hover = -1
             }
         },
+
+        //显示关闭icon
         times (index) {
             if (this.readonly !== true) {
                 return (this.focus === index) || 
@@ -106,18 +111,21 @@ export default {
             }
         },
         updateTask(event,index) {
-            this.todo[index].task = event.target.value
+            let data = {
+                task: event.target.value,
+                rate: this.$store.state.todo[index].rate
+            }
+            this.$store.commit('TODO_UPDATE', {data, index})
             this.autoAddTask()
         },
         autoAddTask () {
             if (this.readonly === false) {
-                let task = {key: new Date() ,task: '',rate: 0}
                 if ( this.todo.length === 0) {
-                    this.todo.push(task)
+                    this.$store.commit('TODO_ADD')
                     return
                 }
                 if (this.todo[this.todo.length -1].task !== '') {
-                    this.todo.push(task)
+                    this.$store.commit('TODO_ADD')
                 }
             }
         },
@@ -126,15 +134,21 @@ export default {
             if (i === index) {
                 return
             }
-            this.todo.splice(index, 1)
+            this.$store.commit('TODO_REMOVE', index)
         },
         updateRate(event, index) {
-            this.todo[index].rate = event.rate
-            this.autoAddTask()
+            if (this.readonly === false) {
+                let data = {
+                    task: this.$store.state.todo[index].task,
+                    rate: event.rate
+                }
+                this.$store.commit('TODO_UPDATE',{data, index})
+                this.autoAddTask()
+            }
         },
         save () {
             if (this.needSync) {
-                this.$store.dispatch('saveNoteToday', this.todo)
+                this.$store.dispatch('saveNoteToday')
             }
         },
         autoSave (second) {
@@ -146,21 +160,7 @@ export default {
         addEventListener('unload', this.save)
     },
     created () {
-        this.todo = this.note[this.current - 1].todo.slice()
         this.autoAddTask()
-    },
-    beforeRouteUpdate (to, from, next) {
-        this.save()
-        console.log('routeupdate')
-        switch (to.params.page) {
-            case 'today':
-                this.todo = Object.assign([], this.note[this.page - 1].todo)
-                break
-            default :
-                this.todo = Object.assign([], this.note[this.$route.params.page*1 - 1].todo)
-                break
-        }
-        next()
     },
     mounted () {
         this.autoSave(5)//5秒自动保存

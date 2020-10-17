@@ -1,5 +1,34 @@
 
 export default {
+    TODO (state, page) {
+      try{
+        let index = page - 1
+        let todo_json = JSON.stringify(state.note[index].todo)
+        state.todo = JSON.parse(todo_json)
+      } catch {
+        console.log('state.note has not inital')
+      }
+    },
+    TODO_ADD (state) {
+      state.todo.push(state.blankTask)
+    },
+    TODO_UPDATE (state, {data, index}) {
+      let temp = state.todo[index]
+      console.log(temp, data)
+      temp.task = data.task
+      temp.rate = data.rate
+    },
+    TODO_REMOVE (state, index) {
+      state.todo.splice(index,1)
+    },
+    TODO_SAVE (state) {
+      let todo_json = JSON.stringify(state.todo)
+      let todo = JSON.parse(todo_json)
+      todo = todo.filter( val => {
+        return val.task
+      })
+      state.note[state.note.length - 1].todo = todo
+    },
     PAGE_CURRENT (state, page) {
         state.noteInfo.current = page
     },
