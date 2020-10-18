@@ -18,9 +18,15 @@ export default new Vuex.Store({
       prefix: '还有',
       suffix: '天',
       date: [],
-      finishDate: ''
+      finishDate: '2021'
     },
-    note: [],
+    note: [
+      {
+        page:1,
+        publishDate: new Date(),
+        todo: []
+      }
+    ],
     todo: [],//note[current_page_index].todo 的副本
     noteInfo: {
       page: 0,

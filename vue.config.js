@@ -16,9 +16,9 @@ module.exports = {
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
 
-        workboxPluginMode: 'InjectManifest',
+/*         workboxPluginMode: 'InjectManifest',
         workboxOptions: {
             swSrc: 'src/service-worker.js'
-        }
+        } */
     }
 }
