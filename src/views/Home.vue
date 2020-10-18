@@ -22,8 +22,7 @@ export default {
     listenRoute (to, from) {
       let toPage = Number.parseInt(to.params.page)
       let fromPage = Number.parseInt(from.params.page)
-
-      switch (toPage) {
+      switch (to.params.page) {
         case 'today':
           this.$store.dispatch('getNoteToday')
             .then( () => {
@@ -40,7 +39,8 @@ export default {
               })
             break
           }
-          //toPage 无效
+
+          //toPage 无效@TODO: 无法处理字符串的fromPage
           if ((0 < fromPage) && (fromPage <= this.page)) {//fromPage有效
             this.$router.push({name: 'Home', params: {page: fromPage}})//跳回
           } else {//fromPage无效
@@ -52,13 +52,13 @@ export default {
     }
   },
   created () {
-    //初始化页面数据
+    //初始化页面数据 
     let routePage = Number.parseInt(this.$route.params.page)
-    switch (routePage) {
+    switch (this.$route.params.page) {
       case 'today':
           this.$store.dispatch('getNoteToday')
-          this.$store.commit('PAGE_CURRENT', this.page)
             .then( () => {
+              this.$store.commit('PAGE_CURRENT', this.page)
               this.$store.commit('TODO', this.page)
             })
           break

@@ -27,7 +27,6 @@
                         @click="removeTask(index)"
                         v-if="times(index)"
                         tabindex="0"
-                        @submit="removeTask(index)"
                     >
                     <font-awesome-icon  icon="times"/>
                     </div>
@@ -126,6 +125,7 @@ export default {
                 }
                 if (this.todo[this.todo.length -1].task !== '') {
                     this.$store.commit('TODO_ADD')
+                    return 
                 }
             }
         },
@@ -159,11 +159,9 @@ export default {
         addEventListener('beforunload', this.save)
         addEventListener('unload', this.save)
     },
-    created () {
+    updated () {
         this.autoAddTask()
-    },
-    mounted () {
-        this.autoSave(5)//5秒自动保存
+        this.autoSave(10)//10秒自动保存
     },
     destroyed () {
         removeEventListener('beforeunload', this.save)

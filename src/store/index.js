@@ -10,7 +10,7 @@ const debug = process.env.NODE_ENV !== 'production'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  strict: (process.env.NODE_ENV !== 'production'),
+  strict: debug,
   plugins: debug ? [createLogger()] : [],
   state: {
     auth: {},
@@ -22,7 +22,6 @@ export default new Vuex.Store({
     },
     note: [],
     todo: [],//note[current_page_index].todo 的副本
-    blankTask: {task: '', rate:0, key: new Date().getTime()},
     noteInfo: {
       page: 0,
       current: 0

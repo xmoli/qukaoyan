@@ -27,9 +27,9 @@ mock.onDelete('/v1/user/destruction').reply(200)
 
 mock.onGet(noteUrl).reply(200, {note: randomNote(5)})
 
-mock.onGet('/v1/info/note').reply(200, {page: data.user.note.length})
+mock.onGet('/v1/info/note').reply(200, {page: 1})
 mock.onPost('/v1/add/note/').reply(200)
-mock.onGet('/v1/note/today').reply(200,{todo: data.user.note[Math.ceil(Math.random()*4)].todo})
+mock.onGet('/v1/note/today').reply(200,{todo: []})
 mock.onPut('/v1/note/today').reply(200)
 mock.onAny().reply(500)
 

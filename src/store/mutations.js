@@ -10,11 +10,15 @@ export default {
       }
     },
     TODO_ADD (state) {
-      state.todo.push(state.blankTask)
+      let task = {
+        key: new Date().getTime(),
+        task: '',
+        rate: 0
+      }
+      state.todo.push(task)
     },
     TODO_UPDATE (state, {data, index}) {
       let temp = state.todo[index]
-      console.log(temp, data)
       temp.task = data.task
       temp.rate = data.rate
     },
