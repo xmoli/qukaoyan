@@ -29,8 +29,8 @@ export default new Vuex.Store({
     ],
     todo: [],//note[current_page_index].todo 的副本
     noteInfo: {
-      page: 0,
-      current: 0
+      page: 1,
+      current: 1
     },
     needSync: false,
     loading: false,
