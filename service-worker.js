@@ -1,7 +1,7 @@
 importScripts("precache-manifest.e1d76933e009db8a7f09cd3a3eeab2ac.js", "https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 
-workbox.core.setCacheNameDetails({prefix: "qukaoyan"});
+workbox.core.setCacheNameDetails({prefix: "qukaoyan-v1"});
 
 self.addEventListener('message', (event) => {
   if (event.data && event.data.type === 'SKIP_WAITING') {
