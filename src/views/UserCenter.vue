@@ -22,10 +22,12 @@ export default {
 <style scoped>
 .user-center {
     position: absolute;
-    margin-top: 1em;
+    margin-top: 8px;
     padding: 1em;
-    width: 40em;
+    width: 45em;
     max-width: 980px;
+    border: 1px solid #c1c4c8;
+    border-radius: 4px
 }
 .user-center > * {
     margin: 1em 0;

@@ -10,7 +10,7 @@ module.exports = {
             })
     },
     pwa: {
-        name: '待办事项',
+        name: '待办事项-v0.2.2',
         themeColor: '#aeaeae',
         msTileColor: '#000000',
         appleMobileWebAppCapable: 'yes',
