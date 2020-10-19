@@ -23,7 +23,7 @@ export default {
 <style>
 ul.nav {
     position: sticky;
-    top: 0;
+    top: 3.7rem;
     z-index: 10;
     
     display: flex;
@@ -34,14 +34,23 @@ ul.nav {
     box-shadow: 2px 2px 10px -8px;
 }
 ul.nav li {
+    display: inline-block;
     margin: 1em;
-    display: inline;
+    height: 3.75em;
+    line-height: 3.75em
 }
+
+ul.nav li:hover {
+    cursor: pointer;
+}
+
 .nav a {
     color: purple;
 }
 
-.router-link-exact-active.router-link-active {
-    color: #2a2aee
+.router-link-active {
+    position: relative;
+    color: #2a2aff;
+    border-bottom: 2px solid #2a2aff;
 }
 </style>

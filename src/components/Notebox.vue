@@ -174,13 +174,12 @@ export default {
 .notebox-wrapper
     position: absolute;
     padding 1em
-    padding-bottom 2em
-    border-left none 
-    border-right none
-    border-radius 5px
-    width 40em
+    width 45em
+    margin-top 8px
+    border-radius 4px
     user-select none
-.notebox-wrapper> div 
+    border: 1px solid #c1c4c8;
+.notebox-wrapper> .countdown
     margin 1em 0
 table.notebox
     border-spacing 0 1em
@@ -197,8 +196,11 @@ table.notebox tr td:last-child
 .task
     display: block;
     width: 100%;
-    border 1em solid transparent
+    border 1.25em solid transparent
     outline none
+
+    letter-spacing .2ch
+
     background inherit
     user-select auto
 
@@ -213,14 +215,19 @@ table.notebox tr td:last-child
         color purple
         transition all .4s ease-in
 .toolIcon {
-    width: 1em;
-    height: 1em;
-    border: 2px solid transparent;
+    width: 1.25em;
+    height: 1.25em;
 }
 @media screen and (max-width: 900px) {
 .notebox-wrapper {
     width: 100vw;
-    box-sizing: border-box;
+    border: none;
+}
+.notebox-wrapper > .countdown {
+    margin-top: 0;
+}
+.task {
+    border: 1.25rem solid transparent;
 }
 }
 </style>

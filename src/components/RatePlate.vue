@@ -22,13 +22,13 @@ export default {
 ul.rate-plate  li{
     display: inline;
     border: .2em solid transparent;
-    color: gray;
+    color: #a0a0a0;
 }
 ul.rate-plate  li:hover {
     cursor: pointer;
 }
 
 .rate-plate .active {
-    color: #2a2aff;
+    color: #2a75ff;
 }
 </style>

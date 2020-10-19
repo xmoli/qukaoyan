@@ -120,11 +120,16 @@ export default {
     /* Typograhic */
     font-size 16px
     /* Visual */
-    border 2px solid #2a2aff
+    border 1px solid #cacaee
+    background white
     &:hover
         cursor pointer
     .number
         font-size 3em
+        transition .3s
+        &:hover
+            color white
+            text-shadow 0 0 .1em #2a75ff, 0 0 .3em #2a75ff
     span
         margin 8px
 dt {

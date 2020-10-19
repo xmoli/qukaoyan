@@ -2,14 +2,15 @@ import Vue from 'vue'
 import App from './App.vue'
 import store from './store'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faClock,  faBackward, faForward, faCog, faPlus, faUser, faUserPlus, faCheck, faSync, faTimes } from '@fortawesome/free-solid-svg-icons'
+import { faClock, faCog, faPlus, faUser, faUserPlus, faCheck, faSync, faTimes, faArrowLeft, faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import router from './router'
 import './registerServiceWorker'
 
 library.add(faClock)
-library.add(faBackward)
-library.add(faForward)
+library.add(faArrowLeft)
+library.add(faAngleLeft)
+library.add(faAngleRight)
 library.add(faCog)
 library.add(faPlus)
 library.add(faUser)

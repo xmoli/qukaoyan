@@ -4,16 +4,16 @@
              @click="decrement"
              :class="{disable: !hasPre()}"
         >
-            <font-awesome-icon icon="backward"/>
+            <font-awesome-icon icon="angle-left"/>
         </div>
         <form @submit.prevent="handleCloseSelect" class="pager-form"
             @click.stop="togglePageList"
+            :style="{width: current*1.5 + 'em'}"
         >
-        第
         <input placeholder="页码" class="pager-input"
             v-model="current"
             @blur="handleCloseSelect"
-            type="number"
+            :style="{width: current*1+'em'}"
         />
         <select-option
             class="pager-select-option"
@@ -22,14 +22,16 @@
             @close="handleCloseSelect"
             @select="handleSelect"
         />
-        / {{maxPage}}
-        页
         </form>
+        /
+        <div class="last-page">
+            {{maxPage}}
+        </div>
         <div class="icon right"
             @click="increment()"
             :class="{disable: !hasNext()}"
         >
-            <font-awesome-icon icon="forward"/>
+            <font-awesome-icon icon="angle-right"/>
         </div>
     </div>
 </template>
@@ -136,28 +138,34 @@ export default {
     justify-content center
     align-items center
     user-select none
+.pager> * {
+    margin: 0 4px;
+}
 .pager-form 
-    border-radius 8px
-    border-left none 
-    border-right none 
-    padding 0 4px
+    overflow hidden
+    display flex
+    align-items center
+    justify-content center
+    height 1.5em
+    min-width 1.8em
+    border-radius 4px 
+    background white
     &:hover
         cursor pointer
-.pager-input
-    width 3.5em
-    outline none
-    margin-left 4px
-    padding 4px
-    border-radius 4px
-    border none 
-    box-shadow 0 0 8px -4px inset
-    user-select auto
 
-.icon
-    width 2em
-    padding 8px
-    border-radius 4px
+.pager-input
+    outline none
+    border none 
+    user-select auto
+    background inhreit 
+
+.icon, .last-page
+    width 1.8em
+    height 1.5em
+    line-height 1.5em;
+    border-radius 2px
     color black
+    background white
     &:hover
         cursor pointer
 
