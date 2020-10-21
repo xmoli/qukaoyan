@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "precache-manifest.900d7376abf8766bf210470ae981a14d.js"
+  "precache-manifest.da5557079746dae6692b7777ac7f64bf.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "qukaoyan"});
