@@ -35,7 +35,7 @@ export default {
     cursor: pointer;
 }
 .user-info {
-    background: linear-gradient(45deg,white 70%, #c1c4c8 30%);
+    background: white;
     background-size: 2.25em 100%;
 }
 .user-info dd {
